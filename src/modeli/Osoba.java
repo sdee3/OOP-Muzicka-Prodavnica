@@ -1,9 +1,14 @@
 package modeli;
 
+import baza.BazaPodataka;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public abstract class Osoba {
 
     private String username, password;
-    private static int brojac;
+    private static int brojac = 0;
 
     public Osoba(String username, String password){
         this.username = username;
@@ -11,20 +16,28 @@ public abstract class Osoba {
         brojac = 0;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() {return username;}
 
-    public String getPassword() {
-        return password;
-    }
+    public String getPassword() {return password;}
 
-    public static int getBrojac() {
-        return brojac;
-    }
+    protected static int getBrojac() {return brojac;}
 
-    public static void inkrementirajBrojac(){ brojac++; }
+    protected static void inkrementirajBrojac(){ brojac++; }
 
     public abstract String getMeni();
+
+    protected static boolean proveraBazeLogin(String username, String upit){
+        ResultSet odgovorBaze;
+        boolean rezultat = false;
+        try {
+            odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
+            if(odgovorBaze.getString("username").equals(username)) {
+                System.out.println("Dobrodošli nazad!");
+                rezultat = true;
+            }else
+                rezultat = false;
+        } catch (SQLException e) { e.printStackTrace(); }
+        return rezultat;
+    }
 
 }
