@@ -12,11 +12,11 @@ public class Korisnik extends Osoba {
     }
 
     public static Korisnik korisnikPassCheck(String username) {
-        String password = "", upit = "SELECT username FROM osoba WHERE admin = 0 AND password = '" + password + "'";
+        String password = "";
         while (getBrojac() < 3) {
             System.out.print("Lozinka: ");
             password = new Scanner(System.in).nextLine();
-            if (proveraBazeLogin(username, upit))
+            if (proveraBazeLogin(username, "SELECT username FROM osoba WHERE admin = 0 AND password = '" + password + "'"))
                 break;
             else inkrementirajBrojac();
         }

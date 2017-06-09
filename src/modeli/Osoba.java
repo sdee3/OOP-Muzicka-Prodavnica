@@ -27,11 +27,10 @@ public abstract class Osoba {
     public abstract String getMeni();
 
     protected static boolean proveraBazeLogin(String username, String upit){
-        ResultSet odgovorBaze;
         boolean rezultat = false;
         try {
-            odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
-            if(odgovorBaze.getString("username").equals(username)) {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
+            if(odgovorBaze.getString(1).equals(username)) {
                 System.out.println("Dobrodošli nazad!");
                 rezultat = true;
             }else
