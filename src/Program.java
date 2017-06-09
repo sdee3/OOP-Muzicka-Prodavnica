@@ -1,9 +1,10 @@
-import modeli.Administrator;
-import modeli.Korisnik;
+import modeli.*;
 
 import java.util.Scanner;
 
 public class Program {
+
+    private static Osoba osoba;
 
     public static void main(String[] args) {
 
@@ -12,12 +13,14 @@ public class Program {
                 "ste novi, izaberite neko novo.\n\nKorisničko ime:");
         String username = new Scanner(System.in).nextLine();
         checkUsername(username);
-
+        osoba.getMeni();
     }
 
     private static void checkUsername(String username) {
-        if(username.startsWith("a")) Administrator.adminCheck(username);
-        else if(username.startsWith("k")) Korisnik.korisnikCheck(username);
+        if(username.startsWith("a"))
+            osoba = Administrator.adminCheck(username);
+        else if(username.startsWith("k"))
+            osoba = Korisnik.korisnikCheck(username);
         else
             System.err.println("Neispravno korisničko ime! Ukoliko se registrujete, Vaše korisničko ime mora početi malim slovom 'k'.");
     }

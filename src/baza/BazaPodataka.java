@@ -9,7 +9,7 @@ public class BazaPodataka {
     private BazaPodataka() {
         try {
             Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:prodavnica.db");
+            conn = DriverManager.getConnection("jdbc:sqlite:src/baza/prodavnica.db");
         } catch ( Exception e ) {
             System.err.println("Doslo je do greske pri konekciji na bazu podataka"
                     + e.getClass().getName() + ": " + e.getMessage() );

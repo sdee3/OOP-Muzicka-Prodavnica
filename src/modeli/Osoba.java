@@ -3,10 +3,12 @@ package modeli;
 public abstract class Osoba {
 
     private String username, password;
+    private static int brojac;
 
     public Osoba(String username, String password){
         this.username = username;
         this.password = password;
+        brojac = 0;
     }
 
     public String getUsername() {
@@ -17,12 +19,12 @@ public abstract class Osoba {
         return password;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public static int getBrojac() {
+        return brojac;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public static void inkrementirajBrojac(){ brojac++; }
+
+    public abstract String getMeni();
 
 }
