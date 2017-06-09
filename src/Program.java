@@ -44,7 +44,7 @@ public class Program {
     }
 
     private static boolean proveraBaze(String username, String tmpPassword) {
-        //TODO Provera sa bazom
+
         return true;
     }
 }

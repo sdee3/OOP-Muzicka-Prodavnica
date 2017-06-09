@@ -6,11 +6,10 @@ public class BazaPodataka {
     private Connection conn;
     private static BazaPodataka instanca;
 
-    //Singleton - promenljiva tipa Singleton mora biti static!
     private BazaPodataka() {
         try {
             Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:knjige.db");
+            conn = DriverManager.getConnection("jdbc:sqlite:baza/prodavnica.db");
         } catch ( Exception e ) {
             System.err.println("Doslo je do greske pri konekciji na bazu podataka"
                     + e.getClass().getName() + ": " + e.getMessage() );
