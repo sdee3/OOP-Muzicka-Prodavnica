@@ -1,7 +1,5 @@
 package modeli;
 
-import java.util.Scanner;
-
 public abstract class Osoba {
 
     private String username, password;
@@ -27,6 +25,4 @@ public abstract class Osoba {
         this.password = password;
     }
 
-    public abstract String unosLozinke(Scanner unos);
 }
-
