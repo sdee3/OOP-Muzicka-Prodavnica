@@ -1,6 +1,8 @@
 import helper.Log;
 import modeli.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Program {
@@ -12,7 +14,7 @@ public class Program {
         System.out.print("\nDobrodošli u Čoko-PC-kord!\n\nOvo je Vaša muzička prodavnica!\n\nVaše korisničko ime: ");
         String username = new Scanner(System.in).nextLine();
         checkUsername(username);
-        //Log.insert(username + " ulogovan/a " + );
+        Log.insert(username + " ulogovan/a na sistem: " + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
         System.out.println(osoba.getMeni());
 
     }
