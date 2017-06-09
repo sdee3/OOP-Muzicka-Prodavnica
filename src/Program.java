@@ -12,8 +12,8 @@ public class Program {
     public static void main(String[] args) {
 
         System.out.print("\nDobrodošli u Čoko-PC-kord!\n\nOvo je Vaša muzička prodavnica!\n\nVaše korisničko ime: ");
-        String username = new Scanner(System.in).nextLine();
-        checkUsername(username);
+
+        unesiUsername();
         Log.insert(osoba.getUsername() + " ulogovan/a na sistem: " + datumVreme());
         System.out.println(osoba.getMeni());
 
@@ -23,10 +23,20 @@ public class Program {
         return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
     }
 
-    private static void checkUsername(String username) {
-        if(username.startsWith("a")) osoba = Administrator.adminPassCheck(username);
-        else if(username.startsWith("k")) osoba = Korisnik.korisnikPassCheck(username);
-        else System.err.println("Neispravno korisničko ime! Korisničko ime mora početi malim slovom 'k' ili 'a'.");
+    private static void unesiUsername() {
+        do{
+            String username = new Scanner(System.in).nextLine();
+            if(username.startsWith("a")){
+                osoba = Administrator.adminPassCheck(username);
+                break;
+            }
+            else if(username.startsWith("k")){
+                osoba = Korisnik.korisnikPassCheck(username);
+                break;
+            }
+            else System.err.println("Neispravno korisničko ime! Korisničko ime mora početi malim slovom 'k' ili 'a'. Pokušajte ponovo.");
+
+        }while(true);
     }
 
 }
