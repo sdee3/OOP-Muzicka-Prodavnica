@@ -1,3 +1,5 @@
+package modeli;
+
 import java.util.Scanner;
 
 abstract class Osoba {
