@@ -14,9 +14,13 @@ public class Program {
         System.out.print("\nDobrodošli u Čoko-PC-kord!\n\nOvo je Vaša muzička prodavnica!\n\nVaše korisničko ime: ");
         String username = new Scanner(System.in).nextLine();
         checkUsername(username);
-        Log.insert(username + " ulogovan/a na sistem: " + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
+        Log.insert(osoba.getUsername() + " ulogovan/a na sistem: " + datumVreme());
         System.out.println(osoba.getMeni());
 
+    }
+
+    private static String datumVreme() {
+        return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
     }
 
     private static void checkUsername(String username) {
