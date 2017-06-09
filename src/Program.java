@@ -12,7 +12,6 @@ public class Program {
     public static void main(String[] args) {
 
         System.out.print("\nDobrodošli u Čoko-PC-kord!\n\nOvo je Vaša muzička prodavnica!\n\nVaše korisničko ime: ");
-
         unesiUsername();
         Log.insert(osoba.getUsername() + " ulogovan/a na sistem: " + datumVreme());
         System.out.println(osoba.getMeni());
