@@ -8,7 +8,7 @@ public class Administrator extends Osoba {
 
     public String getMeni() {
         return "\n1. Unos pesme\n2. Unos izvođača\n3. Unos albuma\n4. Ažuriranje pesme\n5. Ažuriranje izvođača" +
-                "\n6. Ažuriranje albuma\7. Brisanje pesme\n8. Brisanje izvođača\n9. Brisanje albuma\n10. Odjava\n";
+                "\n6. Ažuriranje albuma\n7. Brisanje pesme\n8. Brisanje izvođača\n9. Brisanje albuma\n10. Odjava\n";
     }
 
     public static Administrator adminPassCheck(String username) {
