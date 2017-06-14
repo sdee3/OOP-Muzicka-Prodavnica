@@ -1,5 +1,7 @@
 package modeli;
 
+import helper.Log;
+
 import java.util.Scanner;
 
 public class Korisnik extends Osoba {

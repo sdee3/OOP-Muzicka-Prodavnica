@@ -1,6 +1,6 @@
 package izuzeci;
 
-public class NeispravanLoginException {
+public class NeispravanLoginException extends Exception{
 
 
 

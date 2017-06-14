@@ -1,6 +1,6 @@
 package izuzeci;
 
-public class DuplikatPesmeException {
+public class DuplikatPesmeException extends Exception{
 
 
 

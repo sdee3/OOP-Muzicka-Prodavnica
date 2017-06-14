@@ -5,13 +5,14 @@ import baza.BazaPodataka;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Pesme {
 
     private String naziv, trajanje, izvodjac, album;
     private int id, izvodjac_id, album_id, godina_albuma;
 
-    private Pesme(int id, String naziv, int izvodjac_id, int album_id, String trajanje) {
+    protected Pesme(int id, String naziv, int izvodjac_id, int album_id, String trajanje) {
         this.naziv = naziv;
         this.trajanje = trajanje;
         this.id = id;
@@ -34,6 +35,16 @@ public class Pesme {
         this.id = dohvatiNoviId();
         this.izvodjac_id = izvodjac_id;
         this.album_id = album_id;
+
+        String upit = "insert into pesme values (" + this.id + ", '" + this.naziv + "', " + this.izvodjac_id +
+                ", " + this.album_id + ", '" + this.trajanje + "')";
+
+        try {
+            int brPromena = BazaPodataka.getInstanca().iudUpit(upit);
+            if(brPromena > 0) System.out.println("Uspešno dodavanje pesme u bazu!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private static int dohvatiNoviId() {
@@ -50,11 +61,7 @@ public class Pesme {
         return ++noviId;
     }
 
-    public void unosPesme(String naziv, int id_izvodjaca, String trajanje) {
-        unosPesme(naziv, trajanje, id_izvodjaca,0);
-    }
-
-    public void unosPesme(String naziv, String trajanje, int id_izvodjaca, int id_albuma){
+    public static void unosPesme(String naziv, String trajanje, int id_izvodjaca, int id_albuma){
         String upit = (id_albuma != 0) ? "unesiTekst into pesme('naziv', 'id_izvodjaca', 'id_albuma', 'trajanje') values ('" + naziv
                 + "', " + id_izvodjaca + ", " + id_albuma + ", '" + trajanje + "')"
                 : "unesiTekst into pesme('naziv', 'id_izvodjaca', 'trajanje') values ('" + naziv
@@ -68,7 +75,7 @@ public class Pesme {
 
     }
 
-    public Pesme dohvatiPesmuPoId(int id){
+    public static Pesme dohvatiPesmuPoId(int id){
         Pesme rezultat = null;
         String upit = "select * from pesme where id = " + id;
 
@@ -125,10 +132,22 @@ public class Pesme {
 
     @Override
     public String toString() {
-        return id + ". " + naziv + " (" + trajanje + ")" +
-                "\nIzvodi " + izvodjac +
-                ", album: " + album + " iz " + godina_albuma + ". godine." +
-                '\n';
+        return id + ". " + naziv + " (" + trajanje + ")";
+    }
+
+    public static void rucniUnosNovePesme(Scanner unos){
+        System.out.println("Kako biste uneli pesmu, unesite REDOM:" +
+                " naziv pesme, ID izvođača, ID albuma i trajanje pesme.");
+
+        int id_izvodjaca, id_albuma;
+        String naziv, trajanje;
+
+        System.out.print("Naziv pesme: "); naziv = unos.nextLine();
+        System.out.print("ID izvođača: "); id_izvodjaca = unos.nextInt(); unos.nextLine();
+        System.out.print("ID albuma (Pritisnite Enter ako nema): "); id_albuma = (unos.nextInt() > 0) ? unos.nextInt() : 0 ; unos.nextLine();
+        System.out.print("Trajanje pesme (Format: HH:MM:SS): "); trajanje = unos.nextLine();
+
+        unosPesme(naziv, trajanje, id_izvodjaca, id_albuma);
     }
 
 }

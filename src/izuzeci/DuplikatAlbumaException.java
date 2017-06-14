@@ -1,6 +1,6 @@
 package izuzeci;
 
-public class DuplikatAlbumaException {
+public class DuplikatAlbumaException extends Exception{
 
 
 

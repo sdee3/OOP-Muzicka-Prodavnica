@@ -1,9 +1,12 @@
 package modeli;
 
 import baza.BazaPodataka;
+import izuzeci.NepostojeciIzvodjacException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Izvodjaci {
 
@@ -17,6 +20,16 @@ public class Izvodjaci {
         this.ime_prezime = ime_prezime;
         this.tip = tip;
         this.biografija = biografija;
+
+        String upit = "insert into izvodjaci values (" + this.id + ", '" + this.ime_prezime + "', '" + this.tip +
+                "', " + this.god_formiranja + ", " + this.god_raspada + ", '" + this.biografija + "')";
+
+        try {
+            int brPromena = BazaPodataka.getInstanca().iudUpit(upit);
+            if(brPromena > 0) System.out.println("Uspešno dodavanje izvodjača u bazu!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private Izvodjaci(int id, String ime_prezime, String tip, int god_formiranja, int god_raspada, String biografija) {
@@ -43,14 +56,6 @@ public class Izvodjaci {
 
     }
 
-    protected int getIdIzvodjaca() {
-        return id;
-    }
-
-    protected String getImePrezimeIzvodjaca() {
-        return ime_prezime;
-    }
-
     public static Izvodjaci vratiIzvodjacaPoId(int izvodjac_id) {
 
         String upit = "select * from izvodjaci where id = " + izvodjac_id;
@@ -66,5 +71,96 @@ public class Izvodjaci {
         }
 
         return rezultat;
+    }
+
+    public static ArrayList<Izvodjaci> dohvatiSveIzvodjace(){
+        String upit = "select * from izvodjaci";
+        ArrayList<Izvodjaci> rezultat = new ArrayList<>();
+
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
+            while (odgovorBaze.next()){
+                rezultat.add(new Izvodjaci(odgovorBaze.getInt(1), odgovorBaze.getString(2),
+                        odgovorBaze.getString(3), odgovorBaze.getInt(4), odgovorBaze.getInt(5),
+                        odgovorBaze.getString(6)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rezultat;
+    }
+
+    public static Izvodjaci dohvatiIzvodjacaPoImenu(String ime_prezime) throws NepostojeciIzvodjacException{
+        String upit = "select * from izvodjaci where ime_prezime = '" + ime_prezime + "'";
+        Izvodjaci rezultat = null;
+
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
+            if(odgovorBaze.next())
+                rezultat = new Izvodjaci(odgovorBaze.getInt(1), odgovorBaze.getString(2),
+                        odgovorBaze.getString(3), odgovorBaze.getInt(4), odgovorBaze.getInt(5),
+                        odgovorBaze.getString(6));
+            else
+                throw new NepostojeciIzvodjacException(ime_prezime);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rezultat;
+    }
+
+    public static ArrayList<Pesme> dohvatiPesmeIzvodjaca(String ime_prezime){
+        ArrayList<Pesme> rezultat = new ArrayList<>();
+        String upit = "select * from pesme where id_izvodjaca = (select id from izvodjaci where ime_prezime = '" +
+                ime_prezime + "')";
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
+            while (odgovorBaze.next()){
+                rezultat.add(new Pesme(odgovorBaze.getInt(1), odgovorBaze.getString(2),
+                        odgovorBaze.getInt(3), odgovorBaze.getInt(4),
+                        odgovorBaze.getString(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rezultat;
+    }
+
+    public static ArrayList<Albumi> dohvatiAlbumeIzvodjaca(String ime_prezime){
+        ArrayList<Albumi> rezultat = new ArrayList<>();
+        String upit = "select * from albumi where id_izvodjaca = (select id from izvodjaci where ime_prezime = '"
+                + ime_prezime + "')";
+
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
+            while (odgovorBaze.next()){
+                rezultat.add(new Albumi(odgovorBaze.getInt(1), odgovorBaze.getString(2),
+                        odgovorBaze.getInt(3), odgovorBaze.getInt(4),
+                        odgovorBaze.getString(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rezultat;
+    }
+
+    @Override
+    public String toString() {
+        return tip + " izvodjač " + ime_prezime + "\nAktivan od " + god_formiranja + "." +
+                ((god_raspada > 0) ? " do " + god_raspada : "") + "\nDetaljnije o izvođaču: " + biografija;
+    }
+
+    public String getImePrezime() {
+        return ime_prezime;
+    }
+
+    public static void rucniUnosNovogIzvodjaca(Scanner unos) {
+        System.out.println("Kako biste uneli izvođača, unesite REDOM: " +
+                "naziv benda ili ime i prezime, tip (SOLO, DUO, BEND), godinu formiranja, godinu raspada " +
+                "(može ostati prazno ukoliko je izvođač aktivan) i biografiju ne dužu od 8 rečenica.");
+
     }
 }

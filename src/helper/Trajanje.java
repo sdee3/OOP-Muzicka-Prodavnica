@@ -10,9 +10,9 @@ public class Trajanje {
         this.sekunde = sekunde;
     }
 
-    public Trajanje parsirajVreme(String vreme){
+    public static Trajanje parsirajVreme(String vreme){
         String[] tmpNiz = vreme.split(":");
-        return new Trajanje(Integer.parseInt(tmpNiz[0]), Integer.parseInt(tmpNiz[0]), Integer.parseInt(tmpNiz[0]));
+        return new Trajanje(Integer.parseInt(tmpNiz[0]), Integer.parseInt(tmpNiz[1]), Integer.parseInt(tmpNiz[2]));
     }
 
     public String saberiVreme(Trajanje trajanje){

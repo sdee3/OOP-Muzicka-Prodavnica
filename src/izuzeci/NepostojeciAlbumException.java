@@ -1,6 +1,6 @@
 package izuzeci;
 
-public class NepostojeciAlbumException {
+public class NepostojeciAlbumException extends Exception{
 
 
 

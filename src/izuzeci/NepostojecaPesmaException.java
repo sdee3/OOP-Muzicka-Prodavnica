@@ -1,6 +1,6 @@
 package izuzeci;
 
-public class NepostojecaPesmaException {
+public class NepostojecaPesmaException extends Exception{
 
 
 

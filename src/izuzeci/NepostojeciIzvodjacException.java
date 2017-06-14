@@ -1,7 +1,14 @@
 package izuzeci;
 
-public class NepostojeciIzvodjacException {
+public class NepostojeciIzvodjacException extends Exception {
 
+    public NepostojeciIzvodjacException(){}
 
+    public NepostojeciIzvodjacException(String ime_prezime) {
+        System.err.println("Izvodjac " + ime_prezime + " ne postoji!");
+    }
 
+    public void printStackTrace(){
+        System.err.println("Izvođač ne postoji u bazi podataka.");
+    }
 }
