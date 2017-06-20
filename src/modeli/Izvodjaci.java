@@ -163,4 +163,47 @@ public class Izvodjaci {
                 "(može ostati prazno ukoliko je izvođač aktivan) i biografiju ne dužu od 8 rečenica.");
 
     }
+
+    public void updateIzvodjac(String tmpImePrezime, String tmpTip, int tmpGodinaFormiranja, int tmpGodRaspada, String tmpBiografija) {
+        String upit = "update izvodjaci set ";
+        if(tmpImePrezime.length()>=1) upit += "ime_prezime = '" + tmpImePrezime + "', ";
+        if(tmpTip.length()>=1) upit += "tip = '" + tmpTip.toUpperCase() + "', ";
+        if(tmpGodinaFormiranja!=0) upit += "god_formiranja = " + tmpGodinaFormiranja + ", ";
+        if(tmpGodRaspada!=0) upit += "god_raspada = " + tmpGodRaspada+ ", ";
+        if(tmpBiografija.length()>=1) upit += "biografija = '" + tmpBiografija.trim() + "'";
+        upit += " where id = " + this.id;
+
+        try {
+            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                System.out.println("Uspešno ažuriranje izvođača!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Izvodjaci dohvatiIzvodjacaPoId(int id_izvodjaca) {
+        Izvodjaci rez = null;
+        String upit = "select * from izvodjaci where id = " + id_izvodjaca;
+
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
+            rez = new Izvodjaci(odgovorBaze.getInt(1), odgovorBaze.getString(2),
+                    odgovorBaze.getString(3), odgovorBaze.getInt(4), odgovorBaze.getInt(5),
+                    odgovorBaze.getString(6));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rez;
+    }
+
+    public static void deleteIzvodjac(int tmpId) {
+        String upit = "delete * from izvodjaci where id = " + tmpId;
+        try {
+            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                System.out.println("Uspešno izbrisan izvođač!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

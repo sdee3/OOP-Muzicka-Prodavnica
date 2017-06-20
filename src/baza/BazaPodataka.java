@@ -32,4 +32,9 @@ public class BazaPodataka {
         Statement statement= conn.createStatement();
         return statement.executeQuery(sql);
     }
+
+    public void createTable(String sql) throws SQLException {
+        Statement statement = conn.createStatement();
+        statement.execute(sql);
+    }
 }

@@ -10,7 +10,10 @@ import java.util.Scanner;
 public class Pesme {
 
     private String naziv, trajanje, izvodjac, album;
-    private int id, izvodjac_id, album_id, godina_albuma;
+    private int id;
+    private int izvodjac_id;
+    private int album_id;
+    private int godina_albuma;
 
     protected Pesme(int id, String naziv, int izvodjac_id, int album_id, String trajanje) {
         this.naziv = naziv;
@@ -150,4 +153,33 @@ public class Pesme {
         unosPesme(naziv, trajanje, id_izvodjaca, id_albuma);
     }
 
+    public void updatePesme(String tmpNaziv, int tmpIDIzvodjaca, int tmpIDAlbuma, String tmpTrajanje) {
+        String upit = "update pesme set ";
+        if(tmpNaziv.length()>=1) upit += "naziv = '" + tmpNaziv + "', ";
+        if(tmpIDIzvodjaca!=0) upit += "id_izvodjaca = " + tmpIDIzvodjaca + ", ";
+        if(tmpIDAlbuma!=0) upit += "id_albuma = " + tmpIDAlbuma + ", ";
+        if(tmpTrajanje.length()>=1) upit += "trajanje = '" + tmpTrajanje + "'";
+        upit += " where id = " + this.id;
+
+        try {
+            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                System.out.println("Uspešno ažuriranje pesme!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getAlbum_id() {
+        return album_id;
+    }
+
+    public static void deletePesme(int tmpId) {
+        String upit = "delete * from pesme where id = " + tmpId;
+        try {
+            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                System.out.println("Uspešno izbrisana pesma!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

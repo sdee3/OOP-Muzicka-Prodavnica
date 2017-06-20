@@ -66,6 +66,22 @@ public class Albumi {
         return rezultat;
     }
 
+    public static Albumi dohvatiAlbumPoId(int id){
+        String upit = "select * from albumi where id = " + id;
+        Albumi rez = null;
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
+            rez = new Albumi(odgovorBaze.getInt(1), odgovorBaze.getString(2),
+                    odgovorBaze.getInt(3), odgovorBaze.getInt(4),
+                    odgovorBaze.getString(5));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rez;
+    }
+
     @Override
     public String toString() {
         return id + ". " + naziv + "\nŽanr: " + zanr + "\nIzdat " + godina_izdanja + ".";
@@ -104,5 +120,31 @@ public class Albumi {
         String zanr = unos.nextLine();
 
         return new Albumi(godina_izdanja, id_izvodjaca, naziv, zanr);
+    }
+
+    public void updateAlbum(String tmpNaziv, int tmpGodina, int tmpIDIzvodjaca, String tmpZanr) {
+        String upit = "update albumi set ";
+        if(tmpNaziv.length()>=1) upit += "naziv = '" + tmpNaziv + "', ";
+        if(tmpGodina!=0) upit += "godina_izdanja = " + tmpGodina + ", ";
+        if(tmpIDIzvodjaca!=0) upit += "id_izvodjaca = " + tmpIDIzvodjaca + ", ";
+        if(tmpZanr.length()>=1) upit += "zanr = '" + tmpZanr + "'";
+        upit += " where id = " + this.id;
+
+        try {
+            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                System.out.println("Uspešno ažuriranje albuma!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteAlbum(int tmpId) {
+        String upit = "delete * from albumi where id = " + tmpId;
+        try {
+            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                System.out.println("Uspešno izbrisan album!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

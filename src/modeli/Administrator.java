@@ -1,9 +1,14 @@
 package modeli;
 
+import izuzeci.NepostojecaPesmaException;
+import izuzeci.NepostojeciAlbumException;
+import izuzeci.NepostojeciIzvodjacException;
+
 import java.util.Scanner;
 
 public class Administrator extends Osoba {
 
+    private static Scanner unos = new Scanner(System.in);
     private Administrator(String username, String password) {super(username, password);}
 
     public String getMeni() {
@@ -29,6 +34,156 @@ public class Administrator extends Osoba {
             System.exit(1);
             return null;
         } else return new Administrator(username, password);
+    }
+
+    public static void unosPesamaUAlbum(Albumi noviAlbum) {
+
+    }
+
+    public static void brisanjeAlbuma() {
+        System.out.print("Unesite ID albuma za brisanje:");
+        int tmpId = unos.nextInt();
+        unos.nextLine();
+        try {
+            if(Albumi.dohvatiAlbumPoId(tmpId)!=null) {
+                System.out.println("Da li ste sigurni da želite obrisati album? " +
+                        "OVO ĆE IZBRISATI I IZVOĐAČA I SVE PESME IZDATE POD OVIM ALBUMOM!\nUnesite DA ili NE");
+                if (unos.nextLine().equals("DA")) {
+                    Albumi.deleteAlbum(tmpId);
+                }else{
+                    System.out.println("Povratak na meni...");
+                }
+            }else throw new NepostojeciAlbumException();
+        } catch (NepostojeciAlbumException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void brisanjeIzvodjaca() {
+        System.out.print("Unesite ID izvođača za brisanje:");
+        int tmpId = unos.nextInt();
+        unos.nextLine();
+        try {
+            if(Izvodjaci.dohvatiIzvodjacaPoId(tmpId)!=null) {
+                System.out.println("Da li ste sigurni da želite obrisati izvođača? Unesite DA ili NE");
+                if (unos.nextLine().equals("DA")) {
+                    Izvodjaci.deleteIzvodjac(tmpId);
+                }else{
+                    System.out.println("Povratak na meni...");
+                }
+            }else throw new NepostojeciIzvodjacException();
+        } catch (NepostojeciIzvodjacException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void brisanjePesme() {
+        System.out.print("Unesite ID pesme za brisanje:" );
+        int tmpId = unos.nextInt();
+        unos.nextLine();
+        try {
+            if(Pesme.dohvatiPesmuPoId(tmpId)!=null) {
+                System.out.println("Da li ste sigurni da želite obrisati pesmu? Unesite DA ili NE");
+                if (unos.nextLine().equals("DA")) {
+                    Pesme.deletePesme(tmpId);
+                }else{
+                    System.out.println("Povratak na meni...");
+                }
+            }else throw new NepostojecaPesmaException();
+        } catch (NepostojecaPesmaException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void azuriranjeAlbuma() {
+        String tmpNaziv, tmpZanr;
+        int tmpGodina, tmpIDIzvodjaca;
+        System.out.print("Unesite ID albuma: ");
+        int tmpId = unos.nextInt();
+        unos.nextLine();
+        Albumi tmpAlbum = Albumi.dohvatiAlbumPoId(tmpId);
+        if(tmpAlbum == null) {
+            try {
+                throw new NepostojeciAlbumException();
+            } catch (NepostojeciAlbumException e) {
+                e.printStackTrace();
+            }
+        }else{
+            System.out.print("\nUkoliko ne zelite promeniti neki od podataka, pritisnite Enter.\n" +
+                    "Unesite novi naziv albuma: ");
+            tmpNaziv = unos.nextLine();
+            System.out.print("\nUnesite novu godinu izdanja albuma: ");
+            tmpGodina = unos.nextInt();
+            unos.nextLine();
+            System.out.print("Unesite novi ID izvođača: ");
+            tmpIDIzvodjaca = unos.nextInt();
+            unos.nextLine();
+            System.out.print("Unesite novi žanr: ");
+            tmpZanr = unos.nextLine();
+            tmpAlbum.updateAlbum(tmpNaziv, tmpGodina, tmpIDIzvodjaca, tmpZanr);
+        }
+
+    }
+
+    public static void azuriranjeIzvodjaca() {
+        String tmpImePrezime, tmpTip, tmpBiografija;
+        int tmpGodinaFormiranja, tmpGodRaspada;
+        System.out.print("Unesite ID izvođača: ");
+        int tmpId = unos.nextInt();
+        unos.nextLine();
+        Izvodjaci tmpIzvodjac = Izvodjaci.vratiIzvodjacaPoId(tmpId);
+        if(tmpIzvodjac == null) {
+            try {
+                throw new NepostojeciIzvodjacException();
+            } catch (NepostojeciIzvodjacException e) {
+                e.printStackTrace();
+            }
+        }else{
+            System.out.print("\nUkoliko ne zelite promeniti neki od podataka, pritisnite Enter.\n" +
+                    "Unesite novo ime i prezime: ");
+            tmpImePrezime = unos.nextLine();
+            System.out.print("\nUnesite novi tip (SOLO, DUO, BEND): ");
+            tmpTip = unos.nextLine();
+            System.out.print("Unesite novu god. formiranja: ");
+            tmpGodinaFormiranja = unos.nextInt();
+            unos.nextLine();
+            System.out.print("Unesite novu god. raspada: ");
+            tmpGodRaspada = unos.nextInt();
+            unos.nextLine();
+            System.out.print("Unesite novu biografiju (do 500 karaktera): ");
+            tmpBiografija = unos.nextLine();
+            tmpIzvodjac.updateIzvodjac(tmpImePrezime, tmpTip, tmpGodinaFormiranja, tmpGodRaspada, tmpBiografija);
+        }
+
+    }
+
+    public static void azuriranjePesme() {
+        String tmpNaziv, tmpTrajanje;
+        int tmpIDIzvodjaca, tmpIDAlbuma;
+        System.out.print("Unesite ID pesme: ");
+        int tmpId = unos.nextInt();
+        unos.nextLine();
+        Pesme tmpPesma = Pesme.dohvatiPesmuPoId(tmpId);
+        if (tmpPesma == null) {
+            try {
+                throw new NepostojecaPesmaException();
+            } catch (NepostojecaPesmaException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.print("\nUkoliko ne zelite promeniti neki od podataka, pritisnite Enter.\n" +
+                    "Unesite novi naziv pesme: ");
+            tmpNaziv = unos.nextLine();
+            System.out.print("\nUnesite novi ID izvođača: ");
+            tmpIDIzvodjaca = unos.nextInt();
+            unos.nextLine();
+            System.out.print("Unesite novi ID albuma (može ostati prazno ukoliko je singl): ");
+            tmpIDAlbuma = unos.nextInt();
+            unos.nextLine();
+            System.out.print("Unesite novo trajanje (HH:MM:SS): ");
+            tmpTrajanje = unos.nextLine();
+            tmpPesma.updatePesme(tmpNaziv, tmpIDIzvodjaca, tmpIDAlbuma, tmpTrajanje);
+        }
     }
 
 }
