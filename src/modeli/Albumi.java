@@ -87,18 +87,18 @@ public class Albumi {
     @Override
     public String toString() {
         return id + ". " + naziv + "\nŽanr: " + zanr + "\nIzdat " + godina_izdanja + "."
-                + "\nIzvodjac: " + izvodjac;
+                + "\nIzvodjac: " + izvodjac + "\nUkupno trajanje albuma: " + dohvatiUkupnoTrajanje(this);
     }
 
     public static String dohvatiUkupnoTrajanje(Albumi albumi) {
-        Trajanje tmpTrajanje, zbirno = new Trajanje(0,0,0);
+        ArrayList<Trajanje> tmpListaTrajanje = new ArrayList<>();
         String rezultat = null, upit = "select p.trajanje from pesme p, albumi a where p.id_izvodjaca = "+ albumi.izvodjac.getIzvodjacId() + " and p.id_albuma = a.id";
 
         try {
             ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
             while (odgovorBaze.next()) {
-                tmpTrajanje = Trajanje.parsirajVreme(odgovorBaze.getString(1));
-                rezultat = zbirno.saberiVreme(tmpTrajanje);
+                tmpListaTrajanje.add(Trajanje.parsirajVreme(odgovorBaze.getString(1)));
+                rezultat = Trajanje.saberiIVratiVreme(tmpListaTrajanje);
             }
         } catch (SQLException e) {
             e.printStackTrace();
