@@ -1,15 +1,21 @@
 package modeli;
 
+import baza.BazaPodataka;
 import izuzeci.NepostojecaPesmaException;
 import izuzeci.NepostojeciAlbumException;
 import izuzeci.NepostojeciIzvodjacException;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Administrator extends Osoba {
 
     private static Scanner unos = new Scanner(System.in);
-    private Administrator(String username, String password) {super(username, password);}
+
+    private Administrator(String username, String password) {
+        super(username, password);
+    }
 
     public String getMeni() {
         return "\n1. Unos pesme\n2. Unos izvođača\n3. Unos albuma\n4. Ažuriranje pesme\n5. Ažuriranje izvođača" +
@@ -17,18 +23,26 @@ public class Administrator extends Osoba {
     }
 
     public static Administrator adminPassCheck(String username) {
-        String password = "";
+        String praviPassword = "", tmpPassword;
+
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit("SELECT password FROM osoba WHERE admin = 1 AND username = '" + username + "'");
+            praviPassword = odgovorBaze.getString("password");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         while (getBrojac() < 3) {
             System.out.print("Lozinka: ");
-            password = new Scanner(System.in).nextLine();
-            if (proveraBazeLogin(username, "SELECT username FROM osoba WHERE admin = 1 AND password = '" + password + "'"))
+            tmpPassword = new Scanner(System.in).nextLine();
+            if (proveraUneteIPraveLozinke(praviPassword, tmpPassword))
                 break;
             else inkrementirajBrojac();
         }
-        return proveraBrojaca(username, password);
+        return proveraBrojacaIKreiranjeAdmina(username, praviPassword);
     }
 
-    private static Administrator proveraBrojaca(String username, String password) {
+    private static Administrator proveraBrojacaIKreiranjeAdmina(String username, String password) {
         if (getBrojac() == 3) {
             System.err.println("Neispravno uneti podaci. Izlazak iz aplikacije...");
             System.exit(1);
@@ -37,6 +51,30 @@ public class Administrator extends Osoba {
     }
 
     public static void unosPesamaUAlbum(Albumi noviAlbum) {
+        System.out.println("Unos pesama u album mozete prekinuti tako sto cete pritisnuti Enter kod naziva pesme.");
+        String naziv, trajanje;
+        String upit = "", drugiDeoUpita = "";
+
+        while (true) {
+            System.out.print("Naziv: ");
+            naziv = unos.nextLine();
+            if (naziv.equals(""))
+                break;
+            System.out.print("Trajanje: ");
+            trajanje = unos.nextLine();
+            drugiDeoUpita += "(" + Pesme.dohvatiNoviId() + ", '" + naziv + "', " + noviAlbum.getIzvodjac().getIzvodjacId()
+                    + ", " + noviAlbum.getAlbumId() + ", '" + trajanje + "'), ";
+        }
+
+        if (!upit.equals(""))
+            upit += "insert into pesme values ";
+
+        try {
+            if (BazaPodataka.getInstanca().iudUpit(upit+drugiDeoUpita) > 0)
+                System.out.println("Uspesan unos svih pesama!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -45,15 +83,15 @@ public class Administrator extends Osoba {
         int tmpId = unos.nextInt();
         unos.nextLine();
         try {
-            if(Albumi.dohvatiAlbumPoId(tmpId)!=null) {
+            if (Albumi.dohvatiAlbumPoId(tmpId) != null) {
                 System.out.println("Da li ste sigurni da želite obrisati album? " +
                         "OVO ĆE IZBRISATI I IZVOĐAČA I SVE PESME IZDATE POD OVIM ALBUMOM!\nUnesite DA ili NE");
                 if (unos.nextLine().equals("DA")) {
                     Albumi.deleteAlbum(tmpId);
-                }else{
+                } else {
                     System.out.println("Povratak na meni...");
                 }
-            }else throw new NepostojeciAlbumException();
+            } else throw new NepostojeciAlbumException();
         } catch (NepostojeciAlbumException e) {
             e.printStackTrace();
         }
@@ -64,32 +102,32 @@ public class Administrator extends Osoba {
         int tmpId = unos.nextInt();
         unos.nextLine();
         try {
-            if(Izvodjaci.dohvatiIzvodjacaPoId(tmpId)!=null) {
+            if (Izvodjaci.dohvatiIzvodjacaPoId(tmpId) != null) {
                 System.out.println("Da li ste sigurni da želite obrisati izvođača? Unesite DA ili NE");
                 if (unos.nextLine().equals("DA")) {
                     Izvodjaci.deleteIzvodjac(tmpId);
-                }else{
+                } else {
                     System.out.println("Povratak na meni...");
                 }
-            }else throw new NepostojeciIzvodjacException();
+            } else throw new NepostojeciIzvodjacException();
         } catch (NepostojeciIzvodjacException e) {
             e.printStackTrace();
         }
     }
 
     public static void brisanjePesme() {
-        System.out.print("Unesite ID pesme za brisanje:" );
+        System.out.print("Unesite ID pesme za brisanje:");
         int tmpId = unos.nextInt();
         unos.nextLine();
         try {
-            if(Pesme.dohvatiPesmuPoId(tmpId)!=null) {
+            if (Pesme.filtrirajListuPesamaPoId(tmpId) != null) {
                 System.out.println("Da li ste sigurni da želite obrisati pesmu? Unesite DA ili NE");
                 if (unos.nextLine().equals("DA")) {
                     Pesme.deletePesme(tmpId);
-                }else{
+                } else {
                     System.out.println("Povratak na meni...");
                 }
-            }else throw new NepostojecaPesmaException();
+            } else throw new NepostojecaPesmaException();
         } catch (NepostojecaPesmaException e) {
             e.printStackTrace();
         }
@@ -102,13 +140,13 @@ public class Administrator extends Osoba {
         int tmpId = unos.nextInt();
         unos.nextLine();
         Albumi tmpAlbum = Albumi.dohvatiAlbumPoId(tmpId);
-        if(tmpAlbum == null) {
+        if (tmpAlbum == null) {
             try {
                 throw new NepostojeciAlbumException();
             } catch (NepostojeciAlbumException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             System.out.print("\nUkoliko ne zelite promeniti neki od podataka, pritisnite Enter.\n" +
                     "Unesite novi naziv albuma: ");
             tmpNaziv = unos.nextLine();
@@ -132,13 +170,13 @@ public class Administrator extends Osoba {
         int tmpId = unos.nextInt();
         unos.nextLine();
         Izvodjaci tmpIzvodjac = Izvodjaci.vratiIzvodjacaPoId(tmpId);
-        if(tmpIzvodjac == null) {
+        if (tmpIzvodjac == null) {
             try {
                 throw new NepostojeciIzvodjacException();
             } catch (NepostojeciIzvodjacException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             System.out.print("\nUkoliko ne zelite promeniti neki od podataka, pritisnite Enter.\n" +
                     "Unesite novo ime i prezime: ");
             tmpImePrezime = unos.nextLine();
@@ -163,7 +201,7 @@ public class Administrator extends Osoba {
         System.out.print("Unesite ID pesme: ");
         int tmpId = unos.nextInt();
         unos.nextLine();
-        Pesme tmpPesma = Pesme.dohvatiPesmuPoId(tmpId);
+        Pesme tmpPesma = Pesme.filtrirajListuPesamaPoId(tmpId);
         if (tmpPesma == null) {
             try {
                 throw new NepostojecaPesmaException();

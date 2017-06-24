@@ -158,10 +158,31 @@ public class Izvodjaci {
     }
 
     public static void rucniUnosNovogIzvodjaca(Scanner unos) {
+        String naziv, tip, biografija;
+        int god_formiranja, god_raspada;
+
         System.out.println("Kako biste uneli izvođača, unesite REDOM: " +
                 "naziv benda ili ime i prezime, tip (SOLO, DUO, BEND), godinu formiranja, godinu raspada " +
                 "(može ostati prazno ukoliko je izvođač aktivan) i biografiju ne dužu od 8 rečenica.");
 
+        naziv = unos.nextLine();
+        tip = unos.nextLine();
+        god_formiranja = unos.nextInt();
+        unos.nextLine();
+        god_raspada = unos.nextInt();
+        unos.nextLine();
+        biografija = unos.nextLine();
+
+        String upit = "insert into izvodjaci values (" + dohvatiNoviId() + ", '" + naziv + "', '"
+                + tip.toUpperCase() + ", " + god_formiranja + ", " + god_raspada + ", '"
+                + biografija + "'";
+
+        try {
+            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                System.out.println("Uspešan unos novog izvođača!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateIzvodjac(String tmpImePrezime, String tmpTip, int tmpGodinaFormiranja, int tmpGodRaspada, String tmpBiografija) {
@@ -198,12 +219,16 @@ public class Izvodjaci {
     }
 
     public static void deleteIzvodjac(int tmpId) {
-        String upit = "delete * from izvodjaci where id = " + tmpId;
+        String upit = "delete from izvodjaci where id = " + tmpId;
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
                 System.out.println("Uspešno izbrisan izvođač!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getIzvodjacId() {
+        return id;
     }
 }

@@ -10,18 +10,19 @@ import java.util.Scanner;
 
 public class Albumi {
 
-    private int id, godina_izdanja, id_izvodjaca;
+    private int id, godina_izdanja;
     private String naziv, zanr;
+    private Izvodjaci izvodjac;
 
     public Albumi(int godina_izdanja, int id_izvodjaca, String naziv, String zanr) {
         this.id = dohvatiNoviId();
         this.godina_izdanja = godina_izdanja;
-        this.id_izvodjaca = id_izvodjaca;
+        izvodjac = Izvodjaci.dohvatiIzvodjacaPoId(id_izvodjaca);
         this.naziv = naziv;
         this.zanr = zanr;
 
         String upit = "insert into albumi values (" + this.id + ", '" + this.naziv + "', " + this.godina_izdanja
-                + ", " + this.id_izvodjaca + ", '" + this.zanr + "')";
+                + ", " + izvodjac.getIzvodjacId() + ", '" + this.zanr + "')";
 
         try {
             int brPromena = BazaPodataka.getInstanca().iudUpit(upit);
@@ -34,7 +35,7 @@ public class Albumi {
     protected Albumi(int id, String naziv, int godina_izdanja, int id_izvodjaca, String zanr) {
         this.id = id;
         this.godina_izdanja = godina_izdanja;
-        this.id_izvodjaca = id_izvodjaca;
+        izvodjac = Izvodjaci.dohvatiIzvodjacaPoId(id_izvodjaca);
         this.naziv = naziv;
         this.zanr = zanr;
     }
@@ -71,9 +72,10 @@ public class Albumi {
         Albumi rez = null;
         try {
             ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
-            rez = new Albumi(odgovorBaze.getInt(1), odgovorBaze.getString(2),
-                    odgovorBaze.getInt(3), odgovorBaze.getInt(4),
-                    odgovorBaze.getString(5));
+            if(odgovorBaze.next())
+                rez = new Albumi(odgovorBaze.getInt(1), odgovorBaze.getString(2),
+                        odgovorBaze.getInt(3), odgovorBaze.getInt(4),
+                        odgovorBaze.getString(5));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,12 +86,13 @@ public class Albumi {
 
     @Override
     public String toString() {
-        return id + ". " + naziv + "\nŽanr: " + zanr + "\nIzdat " + godina_izdanja + ".";
+        return id + ". " + naziv + "\nŽanr: " + zanr + "\nIzdat " + godina_izdanja + "."
+                + "\nIzvodjac: " + izvodjac;
     }
 
     public static String dohvatiUkupnoTrajanje(Albumi albumi) {
         Trajanje tmpTrajanje, zbirno = new Trajanje(0,0,0);
-        String rezultat = null, upit = "select p.trajanje from pesme p, albumi a where p.id_izvodjaca = "+ albumi.id_izvodjaca + " and p.id_albuma = a.id";
+        String rezultat = null, upit = "select p.trajanje from pesme p, albumi a where p.id_izvodjaca = "+ albumi.izvodjac.getIzvodjacId() + " and p.id_albuma = a.id";
 
         try {
             ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
@@ -119,6 +122,16 @@ public class Albumi {
         System.out.print("Žanr albuma: ");
         String zanr = unos.nextLine();
 
+        String upit = "insert into albumi(id, naziv, godina_izdanja, id_izvodjaca, zanr) values (" + dohvatiNoviId() + ", '" + naziv
+                + ", " + godina_izdanja + ", " + id_izvodjaca + ", '" + zanr + "')";
+
+        try {
+            if(BazaPodataka.getInstanca().iudUpit(upit) > 0 )
+                System.out.println("Uspesan unos novog albuma!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return new Albumi(godina_izdanja, id_izvodjaca, naziv, zanr);
     }
 
@@ -139,12 +152,46 @@ public class Albumi {
     }
 
     public static void deleteAlbum(int tmpId) {
-        String upit = "delete * from albumi where id = " + tmpId;
+        String upit = "delete from albumi where id = " + tmpId;
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
                 System.out.println("Uspešno izbrisan album!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getAlbumId() {
+        return id;
+    }
+
+    public Izvodjaci getIzvodjac() {
+        return izvodjac;
+    }
+
+    public static ArrayList<Albumi> dohvatiSveAlbume() {
+        String upit = "select * from albumi";
+        ArrayList<Albumi> rez = new ArrayList<>();
+
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
+            while (odgovorBaze.next()){
+                rez.add(new Albumi(odgovorBaze.getInt(1), odgovorBaze.getString(2),
+                        odgovorBaze.getInt(3), odgovorBaze.getInt(4),
+                        odgovorBaze.getString(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rez;
+    }
+
+    public static Albumi filtrirajListuAlbumaPoId(ArrayList<Albumi> albumi, int id) {
+            Albumi rezultat = null;
+            for(Albumi a : albumi){
+                if(a.id == id) rezultat = a;
+            }
+            return rezultat;
     }
 }

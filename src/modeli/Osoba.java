@@ -26,16 +26,13 @@ public abstract class Osoba {
 
     public abstract String getMeni();
 
-    protected static boolean proveraBazeLogin(String username, String upit){
-        boolean rezultat = false;
-        try {
-            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
-            if(odgovorBaze.getString(1).equals(username)) {
+    protected static boolean proveraUneteIPraveLozinke(String praviPassword, String tmpPassword){
+        boolean rezultat;
+            if(tmpPassword.equals(praviPassword)) {
                 System.out.println("Dobrodošli nazad!");
                 rezultat = true;
             }else
                 rezultat = false;
-        } catch (SQLException e) { e.printStackTrace(); }
         return rezultat;
     }
 

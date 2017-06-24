@@ -1,11 +1,7 @@
 import helper.Log;
-import izuzeci.NepostojecaPesmaException;
-import izuzeci.NepostojeciAlbumException;
 import izuzeci.NepostojeciIzvodjacException;
 import modeli.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 import static helper.DatumVreme.vratiDatumIVreme;
@@ -26,8 +22,8 @@ public class Program {
         do {
             System.out.print("\nIzaberite neku od opcija unosom broja: ");
             while (!unos.hasNextInt()) {
-                System.err.println("Nekorektan unos! Morate uneti neku od ponuđenih opcija unosom broja!\n" +
-                        "Pokušajte opet: ");
+                System.err.println("Nekorektan unos! Morate uneti neku od ponudjenih opcija unosom broja!\n" +
+                        "Pokusajte opet: ");
                 unos.next();
             }
             opcija = unos.nextInt();
@@ -37,10 +33,10 @@ public class Program {
         prikazOpcije(opcija);
     }
 
-    private static void login() { //TODO offline pamcenje lozinke pri proveri tacnosti
+    private static void login() {
         Log.init();
 
-        System.out.print("\nDobrodošli u Čoko-PC-kord!\n\nOvo je Vaša muzička prodavnica!\n\nVaše korisničko ime: ");
+        System.out.print("\nDobrodosli u coko-PC-kord!\n\nOvo je Vasa muzicka prodavnica!\n\nVase korisnicko ime: ");
 
         do {
             String username = unos.nextLine();
@@ -57,7 +53,7 @@ public class Program {
             } else if (username.equals("exit") || username.equals("quit"))
                 System.exit(0);
             else
-                System.err.println("Neispravno korisničko ime! Korisničko ime mora početi malim slovom 'k' ili 'a'. Pokušajte ponovo.");
+                System.err.println("Neispravno korisnicko ime! Korisnicko ime mora poceti malim slovom 'k' ili 'a'. Pokusajte ponovo.");
 
         } while (true);
     }
@@ -67,42 +63,51 @@ public class Program {
             case 1:
                 if (osoba instanceof Administrator) {
                     Pesme.rucniUnosNovePesme(unos);
+                    Log.unesiTekst("Administrator je uneo novu pesmu - " + vratiDatumIVreme());
                 } else if (osoba instanceof Korisnik) {
                     Korisnik.prikaziBiblioteku(osoba);
+                    Log.unesiTekst("Korisnik je prikazao sopstvenu biblioteku - " + vratiDatumIVreme());
                     prikaziMeni();
                 }
                 break;
             case 2:
                 if (osoba instanceof Administrator) {
                     Izvodjaci.rucniUnosNovogIzvodjaca(unos);
+                    Log.unesiTekst("Administrator je uneo novog izvodjaca u bazu - " + vratiDatumIVreme());
                     prikaziMeni();
                 } else if (osoba instanceof Korisnik) {
                     korisnikovaPretragaIzvodjaca();
+                    Log.unesiTekst("Korisnik je izvrsio pretragu izvodjaca - " + vratiDatumIVreme());
                     prikaziMeni();
                 }
                 break;
             case 3:
                 if (osoba instanceof Administrator) {
                     Albumi noviAlbum = Albumi.rucniUnosNovogAlbuma(unos);
-                    Administrator.unosPesamaUAlbum(noviAlbum); //TODO unos liste pesama za album
+                    Administrator.unosPesamaUAlbum(noviAlbum);
+                    Log.unesiTekst("Administrator je uneo pesme u album - " + vratiDatumIVreme());
                     prikaziMeni();
                 } else if (osoba instanceof Korisnik) {
                     Korisnik.unosPesmeUBiblioteku(osoba);
+                    Log.unesiTekst("Administrator je uneo pesme u svoju biblioteku - " + vratiDatumIVreme());
                     prikaziMeni();
                 }
                 break;
             case 4:
                 if (osoba instanceof Administrator) {
                     Administrator.azuriranjePesme();
+                    Log.unesiTekst("Administrator je izvrsio azuriranje pesme - " + vratiDatumIVreme());
                     prikaziMeni();
                 } else if (osoba instanceof Korisnik) {
                     Korisnik.unosAlbumaUBiblioteku(osoba);
+                    Log.unesiTekst("Administrator je uneo album u svoju biblioteku - " + vratiDatumIVreme());
                     prikaziMeni();
                 }
                 break;
             case 5:
                 if (osoba instanceof Administrator) {
                     Administrator.azuriranjeIzvodjaca();
+                    Log.unesiTekst("Administrator je izvrsio azuriranje izvodjaca - " + vratiDatumIVreme());
                     prikaziMeni();
                 } else if (osoba instanceof Korisnik) {
                     odjava();
@@ -111,6 +116,7 @@ public class Program {
             case 6:
                 if (osoba instanceof Administrator) {
                     Administrator.azuriranjeAlbuma();
+                    Log.unesiTekst("Administrator je izvrsio azuriranje albuma - " + vratiDatumIVreme());
                     prikaziMeni();
                 } else if (osoba instanceof Korisnik) {
                     System.err.println("Neispravna opcija!");
@@ -120,6 +126,7 @@ public class Program {
             case 7:
                 if (osoba instanceof Administrator) {
                     Administrator.brisanjePesme();
+                    Log.unesiTekst("Administrator je obrisao pesmu - " + vratiDatumIVreme());
                     prikaziMeni();
                 } else if (osoba instanceof Korisnik) {
                     System.err.println("Neispravna opcija!");
@@ -129,6 +136,7 @@ public class Program {
             case 8:
                 if (osoba instanceof Administrator) {
                     Administrator.brisanjeIzvodjaca();
+                    Log.unesiTekst("Administrator je obrisao izvodjaca - " + vratiDatumIVreme());
                     prikaziMeni();
                 } else if (osoba instanceof Korisnik) {
                     System.err.println("Neispravna opcija!");
@@ -138,6 +146,7 @@ public class Program {
             case 9:
                 if (osoba instanceof Administrator) {
                     Administrator.brisanjeAlbuma();
+                    Log.unesiTekst("Administrator je obrisao album - " + vratiDatumIVreme());
                     prikaziMeni();
                 } else if (osoba instanceof Korisnik) {
                     System.err.println("Neispravna opcija!");
@@ -152,7 +161,7 @@ public class Program {
                 }
                 break;
             default:
-                System.err.println("Pogrešan unos!");
+                System.err.println("Pogresan unos!");
                 prikaziMeni();
                 break;
         }
@@ -160,7 +169,7 @@ public class Program {
 
     private static void korisnikovaPretragaIzvodjaca() {
         Izvodjaci tmpIzvodjac;
-        System.out.print("Unesite ime i prezime izvođača radi pretrage: ");
+        System.out.print("Unesite ime i prezime izvodjaca radi pretrage: ");
         String ime_prezime = unos.nextLine();
         try {
             tmpIzvodjac = Izvodjaci.dohvatiIzvodjacaPoImenu(ime_prezime);
@@ -173,10 +182,8 @@ public class Program {
         }
     }
 
-
-
     private static void opcija2Korisnik(Izvodjaci tmpIzvodjac) {
-        System.out.print("\n1. Prikaz pesama i albuma\n2. Dodavanje pesme izvođača u biblioteku" +
+        System.out.print("\n1. Prikaz pesama i albuma\n2. Dodavanje pesme izvodjaca u biblioteku" +
                 "\n3. Dodavanje albuma u biblioteku\n4. Nazad\n\nIzaberite neku od dodatnih opcija: ");
         int tmpIzbor = unos.nextInt();
         unos.nextLine();
@@ -184,28 +191,32 @@ public class Program {
         switch (tmpIzbor) {
             case 1:
                 pesmeIAlbumiIzvodjaca(tmpIzvodjac);
+                Log.unesiTekst("Korisnik je izvrsio pretragu albuma i pesama izvodjaca - " + vratiDatumIVreme());
                 prikaziMeni();
                 break;
             case 2:
                 Korisnik.unosPesmeUBiblioteku(osoba);
+                Log.unesiTekst("Korisnik je uneo pesmu u svoju biblioteku - " + vratiDatumIVreme());
                 prikaziMeni();
                 break;
             case 3:
                 Korisnik.unosAlbumaUBiblioteku(osoba);
+                Log.unesiTekst("Korisnik je uneo album u svoju biblioteku - " + vratiDatumIVreme());
                 prikaziMeni();
                 break;
             case 4:
+                Log.unesiTekst("Korisnik se vratio na glavni meni - " + vratiDatumIVreme());
                 prikaziMeni();
                 break;
             default:
-                System.err.println("Neispravan unos! Pokušajte opet.");
+                System.err.println("Neispravan unos! Pokusajte opet.");
                 opcija2Korisnik(tmpIzvodjac);
                 break;
         }
     }
 
     private static void pesmeIAlbumiIzvodjaca(Izvodjaci tmpIzvodjac) {
-        System.out.println("Pesme izvodjača " + tmpIzvodjac.getImePrezime() + ":");
+        System.out.println("Pesme izvodjaca " + tmpIzvodjac.getImePrezime() + ":");
         for (Pesme p : Izvodjaci.dohvatiPesmeIzvodjaca(tmpIzvodjac.getImePrezime()))
             System.out.println(p);
         System.out.println("Albumi:");

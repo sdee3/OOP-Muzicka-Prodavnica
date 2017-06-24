@@ -32,18 +32,26 @@ public class Korisnik extends Osoba {
     }
 
     public static Korisnik korisnikPassCheck(String username) {
-        String password = "";
+        String praviPassword="", tmpPassword;
+
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit("SELECT password FROM osoba WHERE admin = 0 AND username = '" + username + "'");
+            praviPassword = odgovorBaze.getString("password");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         while (getBrojac() < 3) {
             System.out.print("Lozinka: ");
-            password = new Scanner(System.in).nextLine();
-            if (proveraBazeLogin(username, "SELECT username FROM osoba WHERE admin = 0 AND password = '" + password + "'"))
+            tmpPassword = new Scanner(System.in).nextLine();
+            if (proveraUneteIPraveLozinke(praviPassword, tmpPassword))
                 break;
             else inkrementirajBrojac();
         }
-        return proveraBrojaca(username, password);
+        return proveraBrojacaIKreiranjeKorisnika(username, praviPassword);
     }
 
-    private static Korisnik proveraBrojaca(String username, String password) {
+    private static Korisnik proveraBrojacaIKreiranjeKorisnika(String username, String password) {
         if (getBrojac() == 3) {
             System.err.println("Neispravno uneti podaci. Izlazak iz aplikacije...");
             System.exit(1);
@@ -54,26 +62,27 @@ public class Korisnik extends Osoba {
     public static void prikaziBiblioteku(Osoba osoba) {
         String upit = "select * from " + osoba.getUsername();
 
-        ArrayList<Pesme> pesme = new ArrayList<>();
-        ArrayList<Albumi> albumi = new ArrayList<>();
+        ArrayList<Pesme> pesme = Pesme.dohvatiSvePesme(), korisnikovePesme = new ArrayList<>();
+        ArrayList<Albumi> albumi = Albumi.dohvatiSveAlbume(), korisnikoviAlbumi = new ArrayList<>();
 
         try {
             ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
             while (odgovorBaze.next()){
-                pesme.add(Pesme.dohvatiPesmuPoId(odgovorBaze.getInt("id_pesme")));
-                albumi.add(Albumi.dohvatiAlbumPoId(odgovorBaze.getInt("id_albuma")));
+                korisnikovePesme.add(Pesme.filtrirajListuPesamaPoId(pesme, odgovorBaze.getInt("id_pesme")));
+                korisnikoviAlbumi.add(Albumi.filtrirajListuAlbumaPoId(albumi, odgovorBaze.getInt("id_albuma")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Individualne pesme koje se nalaze u Vašoj biblioteci:");
-        for (Pesme p : pesme){
-            if(p.getAlbum_id() == 0)
-                System.out.println(p);
+        System.out.println("\nIndividualne pesme koje se nalaze u Vašoj biblioteci:");
+        for (Pesme p : korisnikovePesme){
+            if(p!=null && p.getAlbumPesme() == null)
+                System.out.println(p.ispisKompletnePesme());
         }
-        System.out.println("Albumi sa pesmama:");
-        for (Albumi a : albumi) System.out.println(a); //TODO: Štampaj ovo kako TREBA!
+        System.out.println("\n\nAlbumi sa pesmama:");
+        for (Albumi a : korisnikoviAlbumi)
+            if(a!=null) System.out.println(a);
 
     }
 
