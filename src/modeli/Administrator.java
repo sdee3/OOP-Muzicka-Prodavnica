@@ -53,7 +53,7 @@ public class Administrator extends Osoba {
     public static void unosPesamaUNoviAlbum(Albumi noviAlbum) {
         System.out.println("Unos pesama u album mozete prekinuti tako sto cete pritisnuti Enter kod naziva pesme.");
         String naziv, trajanje, upit = "", drugiDeoUpita = "";
-        int brojacPesama = 0;
+        int brojacUnetihPesama = 0;
 
         while (true) {
             System.out.print("Naziv: ");
@@ -71,13 +71,13 @@ public class Administrator extends Osoba {
 
             try {
                 if (BazaPodataka.getInstanca().iudUpit(upit+drugiDeoUpita) > 0)
-                    brojacPesama++;
+                    brojacUnetihPesama++;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
 
-        if(brojacPesama > 0) System.out.println("Uspesan unos svih pesama!");
+        if(brojacUnetihPesama > 0) System.out.println("Uspesan unos svih pesama!");
 
     }
 
