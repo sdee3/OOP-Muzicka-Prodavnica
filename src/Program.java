@@ -15,28 +15,10 @@ public class Program {
         login();
     }
 
-    private static void prikaziMeni() {
-        System.out.println(osoba.getMeni());
-
-        int opcija;
-        do {
-            System.out.print("\nIzaberite neku od opcija unosom broja: ");
-            while (!unos.hasNextInt()) {
-                System.err.println("Nekorektan unos! Morate uneti neku od ponudjenih opcija unosom broja!\n" +
-                        "Pokusajte opet: ");
-                unos.next();
-            }
-            opcija = unos.nextInt();
-            unos.nextLine();
-        } while (opcija < 1);
-
-        prikazOpcije(opcija);
-    }
-
     private static void login() {
         Log.init();
 
-        System.out.print("\nDobrodosli u coko-PC-kord!\n\nOvo je Vasa muzicka prodavnica!\n\nVase korisnicko ime: ");
+        System.out.print("\nDobrodosli u Dinara-kord!\n\nOvo je Vasa muzicka prodavnica!\n\nVase korisnicko ime: ");
 
         do {
             String username = unos.nextLine();
@@ -58,12 +40,31 @@ public class Program {
         } while (true);
     }
 
+    private static void prikaziMeni() {
+        System.out.println(osoba.getMeni());
+
+        int opcija;
+        do {
+            System.out.print("\nIzaberite neku od opcija unosom broja: ");
+            while (!unos.hasNextInt()) {
+                System.err.println("Nekorektan unos! Morate uneti neku od ponudjenih opcija unosom broja!\n" +
+                        "Pokusajte opet: ");
+                unos.next();
+            }
+            opcija = unos.nextInt();
+            unos.nextLine();
+        } while (opcija < 1);
+
+        prikazOpcije(opcija);
+    }
+
     private static void prikazOpcije(int izbor) {
         switch (izbor) {
             case 1:
                 if (osoba instanceof Administrator) {
                     Pesme.rucniUnosNovePesme(unos);
                     Log.unesiTekst("Administrator je uneo novu pesmu - " + vratiDatumIVreme());
+                    prikaziMeni();
                 } else if (osoba instanceof Korisnik) {
                     Korisnik.prikaziBiblioteku(osoba);
                     Log.unesiTekst("Korisnik je prikazao sopstvenu biblioteku - " + vratiDatumIVreme());
@@ -171,6 +172,7 @@ public class Program {
         Izvodjaci tmpIzvodjac;
         System.out.print("Unesite ime i prezime izvodjaca radi pretrage: ");
         String ime_prezime = unos.nextLine();
+        Log.unesiTekst(ime_prezime);
         try {
             tmpIzvodjac = Izvodjaci.dohvatiIzvodjacaPoImenu(ime_prezime);
             System.out.println(tmpIzvodjac);
@@ -222,7 +224,7 @@ public class Program {
         System.out.println("Albumi:");
         for (Albumi a : Izvodjaci.dohvatiAlbumeIzvodjaca(tmpIzvodjac.getImePrezime())) {
             System.out.println(a);
-            System.out.println("Ukupno trajanje albuma: " + Albumi.dohvatiUkupnoTrajanje(a)); //TODO popravi trajanja
+            System.out.println("Ukupno trajanje albuma: " + Albumi.dohvatiUkupnoTrajanje(a));
         }
     }
 
