@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>helper</OriginalElement>
+  <nodes>
+    <node x="635.0" y="1553.0">helper.Log</node>
+    <node x="1731.7261904761906" y="290.0">izuzeci.DuplikatPesmeException</node>
+    <node x="923.0" y="1553.0">helper.DatumVreme</node>
+    <node x="1348.7261904761906" y="680.0">Program</node>
+    <node x="1378.2261904761906" y="223.0">modeli.Osoba</node>
+    <node x="1387.7261904761906" y="0.0">izuzeci.NeispravanLoginException</node>
+    <node x="1981.7261904761906" y="290.0">izuzeci.DuplikatAlbumaException</node>
+    <node x="519.9761904761906" y="279.0">izuzeci.NepostojeciIzvodjacException</node>
+    <node x="51.625" y="1080.0">modeli.Pesme</node>
+    <node x="0.0" y="124.0">modeli.Albumi</node>
+    <node x="1086.9761904761906" y="290.0">izuzeci.NepostojecaPesmaException</node>
+    <node x="1689.4583333333333" y="679.0">modeli.Korisnik</node>
+    <node x="896.9970238095239" y="657.0">modeli.Administrator</node>
+    <node x="816.9761904761906" y="290.0">izuzeci.NepostojeciAlbumException</node>
+    <node x="132.37202380952385" y="580.0">modeli.Izvodjaci</node>
+    <node x="309.0" y="1553.0">baza.BazaPodataka</node>
+    <node x="0.0" y="1553.0">helper.Trajanje</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="modeli.Izvodjaci" target="izuzeci.NepostojeciIzvodjacException">
+      <point x="175.66666666666663" y="-225.0" />
+      <point x="571.5386904761905" y="560.0" />
+      <point x="589.2261904761906" y="560.0" />
+      <point x="-69.25" y="48.0" />
+    </edge>
+    <edge source="modeli.Izvodjaci" target="modeli.Albumi">
+      <point x="-175.66666666666663" y="-225.0" />
+      <point x="220.20535714285722" y="560.0" />
+      <point x="242.5" y="560.0" />
+      <point x="-2.8421709430404007E-14" y="203.0" />
+    </edge>
+    <edge source="modeli.Pesme" target="modeli.Albumi">
+      <point x="-156.66666666666663" y="-214.0" />
+      <point x="129.95833333333337" y="1055.0" />
+      <point x="121.87202380952385" y="1055.0" />
+      <point x="121.87202380952385" y="560.0" />
+      <point x="80.83333333333337" y="560.0" />
+      <point x="-161.66666666666663" y="203.0" />
+    </edge>
+    <edge source="modeli.Izvodjaci" target="modeli.Pesme">
+      <point x="131.75" y="225.0" />
+      <point x="527.6220238095239" y="1055.0" />
+      <point x="443.29166666666663" y="1055.0" />
+      <point x="156.66666666666663" y="-214.0" />
+    </edge>
+    <edge source="modeli.Korisnik" target="izuzeci.DuplikatAlbumaException">
+      <point x="106.66666666666674" y="-126.0" />
+      <point x="1956.125" y="560.0" />
+      <point x="2100.226190476191" y="560.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="modeli.Korisnik" target="izuzeci.DuplikatPesmeException">
+      <point x="0.0" y="-126.0" />
+      <point x="1849.4583333333333" y="560.0" />
+      <point x="1846.7261904761906" y="560.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="modeli.Administrator" target="izuzeci.NepostojeciAlbumException">
+      <point x="-45.0" y="-148.0" />
+      <point x="1031.9970238095239" y="550.0" />
+      <point x="941.9761904761906" y="550.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="modeli.Korisnik" target="modeli.Osoba">
+      <point x="-106.66666666666674" y="-126.0" />
+      <point x="1742.7916666666665" y="560.0" />
+      <point x="1594.0595238095239" y="560.0" />
+      <point x="86.33333333333326" y="104.0" />
+    </edge>
+    <edge source="modeli.Administrator" target="izuzeci.NepostojeciIzvodjacException">
+      <point x="-135.0" y="-148.0" />
+      <point x="941.9970238095239" y="560.0" />
+      <point x="727.7261904761906" y="560.0" />
+      <point x="69.25" y="48.0" />
+    </edge>
+    <edge source="modeli.Albumi" target="modeli.Izvodjaci">
+      <point x="161.66666666666663" y="203.0" />
+      <point x="404.16666666666663" y="560.0" />
+      <point x="395.87202380952385" y="560.0" />
+      <point x="0.0" y="-225.0" />
+    </edge>
+    <edge source="modeli.Pesme" target="modeli.Izvodjaci">
+      <point x="0.0" y="-214.0" />
+      <point x="286.625" y="1055.0" />
+      <point x="264.12202380952385" y="1055.0" />
+      <point x="-131.75" y="225.0" />
+    </edge>
+    <edge source="modeli.Administrator" target="modeli.Osoba">
+      <point x="135.0" y="-148.0" />
+      <point x="1211.9970238095239" y="560.0" />
+      <point x="1421.3928571428573" y="560.0" />
+      <point x="-86.33333333333326" y="104.0" />
+    </edge>
+    <edge source="modeli.Administrator" target="izuzeci.NepostojecaPesmaException">
+      <point x="45.0" y="-148.0" />
+      <point x="1121.9970238095239" y="550.0" />
+      <point x="1212.9761904761906" y="550.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="modeli.Osoba" target="izuzeci.NeispravanLoginException">
+      <point x="0.0" y="-104.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="Program" target="modeli.Osoba">
+      <point x="0.0" y="-125.0" />
+      <point x="0.0" y="104.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7000000000000001" x="752.1428571428571" y="511.57142857142856" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
