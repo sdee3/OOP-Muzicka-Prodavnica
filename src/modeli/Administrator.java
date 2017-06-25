@@ -52,10 +52,9 @@ public class Administrator extends Osoba {
 
     public static void unosPesamaUNoviAlbum(Albumi noviAlbum) {
         System.out.println("Unos pesama u album mozete prekinuti tako sto cete pritisnuti Enter kod naziva pesme.");
-        String naziv, trajanje;
-        String upit = "", drugiDeoUpita = "";
+        String naziv, trajanje, upit = "", drugiDeoUpita = "";
+        int brojacPesama = 0;
 
-        //TODO Popravi ovo
         while (true) {
             System.out.print("Naziv: ");
             naziv = unos.nextLine();
@@ -63,19 +62,22 @@ public class Administrator extends Osoba {
                 break;
             System.out.print("Trajanje: ");
             trajanje = unos.nextLine();
+
             drugiDeoUpita += "(" + Pesme.dohvatiNoviId() + ", '" + naziv + "', " + noviAlbum.getIzvodjac().getIzvodjacId()
-                    + ", " + noviAlbum.getAlbumId() + ", '" + trajanje + "'), ";
+                    + ", " + noviAlbum.getAlbumId() + ", '" + trajanje + "')";
+
+            if (!upit.equals(""))
+                upit += "insert into pesme values ";
+
+            try {
+                if (BazaPodataka.getInstanca().iudUpit(upit+drugiDeoUpita) > 0)
+                    brojacPesama++;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
-        if (!upit.equals(""))
-            upit += "insert into pesme values ";
-
-        try {
-            if (BazaPodataka.getInstanca().iudUpit(upit+drugiDeoUpita) > 0)
-                System.out.println("Uspesan unos svih pesama!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        if(brojacPesama > 0) System.out.println("Uspesan unos svih pesama!");
 
     }
 
