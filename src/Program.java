@@ -18,7 +18,7 @@ public class Program {
     private static void login() {
         Log.init();
 
-        System.out.print("\nDobrodosli u Dinara-kord!\n\nOvo je Vasa muzicka prodavnica!\n\nVase korisnicko ime: ");
+        System.out.print("\nDobrodosli u Dinara-kord!\n\nOvo je Vasa muzicka prodavnica!\n\nVase korisnicko ime (napomena: 'exit' ili 'quit' mogu prekinuti rad aplikacije): ");
 
         do {
             String username = unos.nextLine();
