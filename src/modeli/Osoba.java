@@ -1,9 +1,6 @@
 package modeli;
 
-import baza.BazaPodataka;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import izuzeci.NeispravanLoginException;
 
 public abstract class Osoba {
 
@@ -26,13 +23,13 @@ public abstract class Osoba {
 
     public abstract String getMeni();
 
-    protected static boolean proveraUneteIPraveLozinke(String praviPassword, String tmpPassword){
+    protected static boolean proveraUneteIPraveLozinke(String praviPassword, String tmpPassword) throws NeispravanLoginException {
         boolean rezultat;
             if(tmpPassword.equals(praviPassword)) {
                 System.out.println("Dobrodosli nazad!");
                 rezultat = true;
             }else
-                rezultat = false;
+                throw new NeispravanLoginException();
         return rezultat;
     }
 

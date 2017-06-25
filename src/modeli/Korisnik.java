@@ -2,6 +2,9 @@ package modeli;
 
 import baza.BazaPodataka;
 import helper.Log;
+import izuzeci.DuplikatAlbumaException;
+import izuzeci.DuplikatPesmeException;
+import izuzeci.NeispravanLoginException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,9 +47,13 @@ public class Korisnik extends Osoba {
         while (getBrojac() < 3) {
             System.out.print("Lozinka: ");
             tmpPassword = new Scanner(System.in).nextLine();
-            if (proveraUneteIPraveLozinke(praviPassword, tmpPassword))
-                break;
-            else inkrementirajBrojac();
+            try {
+                if (proveraUneteIPraveLozinke(praviPassword, tmpPassword))
+                    break;
+                else inkrementirajBrojac();
+            } catch (NeispravanLoginException e) {
+                e.printStackTrace();
+            }
         }
         return proveraBrojacaIKreiranjeKorisnika(username, praviPassword);
     }
@@ -100,7 +107,11 @@ public class Korisnik extends Osoba {
             ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit("select id_pesme from " + username);
             while (odgovorBaze.next()){
                 if(odgovorBaze.getInt("id_pesme") == id) {
-                    System.err.println("Pesma vec postoji u bazi!");
+                    try {
+                        throw new DuplikatPesmeException();
+                    } catch (DuplikatPesmeException e) {
+                        e.printStackTrace();
+                    }
                     flagDuplikat = true;
                 }
             }
@@ -135,7 +146,11 @@ public class Korisnik extends Osoba {
             ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit("select id_albuma from " + username);
             while (odgovorBaze.next()){
                 if(odgovorBaze.getInt("id_albuma") == id) {
-                    System.err.println("Pesma vec postoji u bazi!");
+                    try {
+                        throw new DuplikatAlbumaException();
+                    } catch (DuplikatAlbumaException e) {
+                        e.printStackTrace();
+                    }
                     flagDuplikat = true;
                 }
             }

@@ -1,6 +1,7 @@
 package modeli;
 
 import baza.BazaPodataka;
+import izuzeci.NeispravanLoginException;
 import izuzeci.NepostojecaPesmaException;
 import izuzeci.NepostojeciAlbumException;
 import izuzeci.NepostojeciIzvodjacException;
@@ -35,9 +36,13 @@ public class Administrator extends Osoba {
         while (getBrojac() < 3) {
             System.out.print("Lozinka: ");
             tmpPassword = new Scanner(System.in).nextLine();
-            if (proveraUneteIPraveLozinke(praviPassword, tmpPassword))
-                break;
-            else inkrementirajBrojac();
+            try {
+                if (proveraUneteIPraveLozinke(praviPassword, tmpPassword))
+                    break;
+                else inkrementirajBrojac();
+            } catch (NeispravanLoginException e) {
+                e.printStackTrace();
+            }
         }
         return proveraBrojacaIKreiranjeAdmina(username, praviPassword);
     }
