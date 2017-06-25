@@ -194,19 +194,49 @@ public class Izvodjaci {
     }
 
     public void updateIzvodjac(String tmpImePrezime, String tmpTip, int tmpGodinaFormiranja, int tmpGodRaspada, String tmpBiografija) {
-        String upit = "update izvodjaci set ";
-        if(tmpImePrezime.length()>=1) upit += "ime_prezime = '" + tmpImePrezime + "', ";
-        if(tmpTip.length()>=1) upit += "tip = '" + tmpTip.toUpperCase() + "', ";
-        if(tmpGodinaFormiranja!=0) upit += "god_formiranja = " + tmpGodinaFormiranja + ", ";
-        if(tmpGodRaspada!=0) upit += "god_raspada = " + tmpGodRaspada+ ", ";
-        if(tmpBiografija.length()>=1) upit += "biografija = '" + tmpBiografija.trim() + "'";
-        upit += " where id = " + this.id;
+        String upit = "";
 
-        try {
-            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspesno azuriranje izvodjaca!");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(tmpImePrezime.length() > 1 || tmpTip.length() > 1 || tmpGodinaFormiranja != 0 || tmpGodRaspada != 0 || tmpBiografija.length() > 1)
+            upit = "update izvodjaci set ";
+
+        if(tmpImePrezime.length()>1) upit += "ime_prezime = '" + tmpImePrezime;
+
+        if(tmpTip.length()>=1)
+            if(tmpImePrezime.length() > 1){
+            upit += ", tip = '" + tmpTip.toUpperCase();
+            }else{
+                upit += "tip = '" + tmpTip.toUpperCase();
+            }
+
+        if(tmpGodinaFormiranja!=0)
+            if(tmpImePrezime.length() > 1 || tmpTip.length() > 1){
+                upit += ", god_formiranja = " + tmpGodinaFormiranja;
+            }else{
+                upit += "god_formiranja = " + tmpGodinaFormiranja;
+            }
+
+        if(tmpGodRaspada!=0)
+            if(tmpImePrezime.length() > 1 || tmpTip.length() > 1 || tmpGodinaFormiranja != 0) {
+                upit += ", god_raspada = " + tmpGodRaspada;
+            }else{
+                upit += "god_raspada = " + tmpGodRaspada;
+            }
+
+        if(tmpBiografija.length()>1)
+            if(tmpImePrezime.length() > 1 || tmpTip.length() > 1 || tmpGodinaFormiranja != 0 || tmpGodRaspada != 0) {
+                upit += ", biografija = '" + tmpBiografija.trim();
+            }else{
+                upit += "biografija = '" + tmpBiografija.trim();
+            }
+
+        if(tmpImePrezime.length() > 1 || tmpTip.length() > 1 || tmpGodinaFormiranja != 0 || tmpGodRaspada != 0 || tmpBiografija.length() > 1) {
+            upit += " where id = " + this.id;
+            try {
+                if (BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                    System.out.println("Uspesno azuriranje izvodjaca!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

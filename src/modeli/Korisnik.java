@@ -68,7 +68,7 @@ public class Korisnik extends Osoba {
         try {
             ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
             while (odgovorBaze.next()){
-                korisnikovePesme.add(Pesme.filtrirajListuPesamaPoId(pesme, odgovorBaze.getInt("id_pesme")));
+                korisnikovePesme.add(Pesme.dohvatiPesmuPoId(pesme, odgovorBaze.getInt("id_pesme")));
                 korisnikoviAlbumi.add(Albumi.filtrirajListuAlbumaPoId(albumi, odgovorBaze.getInt("id_albuma")));
             }
         } catch (SQLException e) {

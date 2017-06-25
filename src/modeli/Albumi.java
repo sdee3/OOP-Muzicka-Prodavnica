@@ -137,18 +137,44 @@ public class Albumi {
     }
 
     public void updateAlbum(String tmpNaziv, int tmpGodina, int tmpIDIzvodjaca, String tmpZanr) {
-        String upit = "update albumi set ";
-        if(tmpNaziv.length()>=1) upit += "naziv = '" + tmpNaziv + "', ";
-        if(tmpGodina!=0) upit += "godina_izdanja = " + tmpGodina + ", ";
-        if(tmpIDIzvodjaca!=0) upit += "id_izvodjaca = " + tmpIDIzvodjaca + ", ";
-        if(tmpZanr.length()>=1) upit += "zanr = '" + tmpZanr + "'";
-        upit += " where id = " + this.id;
+        String upit = "";
 
-        try {
-            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspesno ažuriranje albuma!");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(tmpNaziv.length() > 1 || tmpGodina!=0 || tmpIDIzvodjaca!=0 || tmpZanr.length() > 1)
+            upit = "update albumi set ";
+
+        if(tmpNaziv.length()>1) upit += "naziv = '" + tmpNaziv;
+
+        if(tmpGodina!=0)
+            if(tmpNaziv.length() > 1) {
+                upit += ", godina_izdanja = " + tmpGodina;
+            }else{
+                upit += "godina_izdanja = " + tmpGodina;
+            }
+
+        if(tmpIDIzvodjaca!=0)
+            if(tmpNaziv.length() > 1 || tmpGodina!=0) {
+                upit += ", id_izvodjaca = " + tmpIDIzvodjaca;
+            }else{
+                upit += "id_izvodjaca = " + tmpIDIzvodjaca;
+            }
+
+        if(tmpZanr.length()>1)
+            if(tmpNaziv.length() > 1 || tmpGodina!=0 || tmpIDIzvodjaca!=0){
+                upit += ", zanr = '" + tmpZanr + "'";
+            }
+            else{
+                upit += "zanr = '" + tmpZanr + "'";
+            }
+        if(tmpNaziv.length() > 1 || tmpGodina!=0 || tmpIDIzvodjaca!=0 || tmpZanr.length() > 1) {
+            upit += " where id = " + this.id;
+
+            try {
+                if (BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                    System.out.println("Uspesno ažuriranje albuma!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

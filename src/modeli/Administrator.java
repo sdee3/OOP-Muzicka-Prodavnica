@@ -123,7 +123,7 @@ public class Administrator extends Osoba {
         int tmpId = unos.nextInt();
         unos.nextLine();
         try {
-            if (Pesme.filtrirajListuPesamaPoId(tmpId) != null) {
+            if (Pesme.dohvatiPesmuPoId(tmpId) != null) {
                 System.out.println("Da li ste sigurni da zelite obrisati pesmu? Unesite DA ili NE");
                 if (unos.nextLine().equals("DA")) {
                     Pesme.deletePesme(tmpId);
@@ -137,12 +137,14 @@ public class Administrator extends Osoba {
     }
 
     public static void azuriranjeAlbuma() {
-        String tmpNaziv, tmpZanr;
-        int tmpGodina, tmpIDIzvodjaca;
+        String tmpNaziv, tmpZanr, tmpGodina_string, tmpIDIzvodjaca_string;
+        int tmpGodina = 0, tmpIDIzvodjaca = 0;
+
         System.out.print("Unesite ID albuma: ");
         int tmpId = unos.nextInt();
         unos.nextLine();
         Albumi tmpAlbum = Albumi.dohvatiAlbumPoId(tmpId);
+
         if (tmpAlbum == null) {
             try {
                 throw new NepostojeciAlbumException();
@@ -153,22 +155,28 @@ public class Administrator extends Osoba {
             System.out.print("\nUkoliko ne zelite promeniti neki od podataka, pritisnite Enter.\n" +
                     "Unesite novi naziv albuma: ");
             tmpNaziv = unos.nextLine();
+
             System.out.print("\nUnesite novu godinu izdanja albuma: ");
-            tmpGodina = unos.nextInt();
-            unos.nextLine();
-            System.out.print("Unesite novi ID izvodjaca: ");
-            tmpIDIzvodjaca = unos.nextInt();
-            unos.nextLine();
-            System.out.print("Unesite novi zanr: ");
+            tmpGodina_string = unos.nextLine();
+            if(tmpGodina_string.length() > 0)
+                tmpGodina = Integer.parseInt(tmpGodina_string);
+
+            System.out.print("\nUnesite novi ID izvodjaca: ");
+            tmpIDIzvodjaca_string = unos.nextLine();
+            if(tmpIDIzvodjaca_string.length() > 0)
+                tmpIDIzvodjaca = Integer.parseInt(tmpIDIzvodjaca_string);
+
+            System.out.print("\nUnesite novi zanr: ");
             tmpZanr = unos.nextLine();
+
             tmpAlbum.updateAlbum(tmpNaziv, tmpGodina, tmpIDIzvodjaca, tmpZanr);
         }
 
     }
 
     public static void azuriranjeIzvodjaca() {
-        String tmpImePrezime, tmpTip, tmpBiografija;
-        int tmpGodinaFormiranja, tmpGodRaspada;
+        String tmpImePrezime, tmpTip, tmpBiografija, tmpGodinaFormiranja_string, tmpGodRaspada_string;
+        int tmpGodinaFormiranja = 0, tmpGodRaspada = 0;
         System.out.print("Unesite ID izvodjaca: ");
         int tmpId = unos.nextInt();
         unos.nextLine();
@@ -183,28 +191,35 @@ public class Administrator extends Osoba {
             System.out.print("\nUkoliko ne zelite promeniti neki od podataka, pritisnite Enter.\n" +
                     "Unesite novo ime i prezime: ");
             tmpImePrezime = unos.nextLine();
+
             System.out.print("\nUnesite novi tip (SOLO, DUO, BEND): ");
             tmpTip = unos.nextLine();
-            System.out.print("Unesite novu god. formiranja: ");
-            tmpGodinaFormiranja = unos.nextInt();
-            unos.nextLine();
-            System.out.print("Unesite novu god. raspada: ");
-            tmpGodRaspada = unos.nextInt();
-            unos.nextLine();
+
+            System.out.print("\nUnesite novu god. formiranja: ");
+            tmpGodinaFormiranja_string = unos.nextLine();
+            if(tmpGodinaFormiranja_string.length() > 0)
+                tmpGodinaFormiranja = Integer.parseInt(tmpGodinaFormiranja_string);
+
+            System.out.print("\nUnesite novu god. raspada: ");
+            tmpGodRaspada_string = unos.nextLine();
+            if(tmpGodRaspada_string.length() > 0)
+                tmpGodRaspada = Integer.parseInt(tmpGodRaspada_string);
+
             System.out.print("Unesite novu biografiju (do 500 karaktera): ");
             tmpBiografija = unos.nextLine();
+
             tmpIzvodjac.updateIzvodjac(tmpImePrezime, tmpTip, tmpGodinaFormiranja, tmpGodRaspada, tmpBiografija);
         }
 
     }
 
     public static void azuriranjePesme() {
-        String tmpNaziv, tmpTrajanje;
-        int tmpIDIzvodjaca, tmpIDAlbuma;
+        String tmpNaziv, tmpTrajanje, tmpIDIzvodjaca_string, tmpIDAlbuma_string;
+        int tmpIDIzvodjaca = 0, tmpIDAlbuma = 0;
         System.out.print("Unesite ID pesme: ");
         int tmpId = unos.nextInt();
         unos.nextLine();
-        Pesme tmpPesma = Pesme.filtrirajListuPesamaPoId(tmpId);
+        Pesme tmpPesma = Pesme.dohvatiPesmuPoId(tmpId);
         if (tmpPesma == null) {
             try {
                 throw new NepostojecaPesmaException();
@@ -215,14 +230,20 @@ public class Administrator extends Osoba {
             System.out.print("\nUkoliko ne zelite promeniti neki od podataka, pritisnite Enter.\n" +
                     "Unesite novi naziv pesme: ");
             tmpNaziv = unos.nextLine();
+
             System.out.print("\nUnesite novi ID izvodjaca: ");
-            tmpIDIzvodjaca = unos.nextInt();
-            unos.nextLine();
-            System.out.print("Unesite novi ID albuma (moze ostati prazno ukoliko je singl): ");
-            tmpIDAlbuma = unos.nextInt();
-            unos.nextLine();
-            System.out.print("Unesite novo trajanje (HH:MM:SS): ");
+            tmpIDIzvodjaca_string = unos.nextLine();
+            if(tmpIDIzvodjaca_string.length() > 0)
+                tmpIDIzvodjaca = Integer.parseInt(tmpIDIzvodjaca_string);
+
+            System.out.print("\nUnesite novi ID albuma (moze ostati prazno ukoliko je singl): ");
+            tmpIDAlbuma_string = unos.nextLine();
+            if(tmpIDAlbuma_string.length() > 0)
+                tmpIDAlbuma = Integer.parseInt(tmpIDAlbuma_string);
+
+            System.out.print("\nUnesite novo trajanje (HH:MM:SS): ");
             tmpTrajanje = unos.nextLine();
+
             tmpPesma.updatePesme(tmpNaziv, tmpIDIzvodjaca, tmpIDAlbuma, tmpTrajanje);
         }
     }
