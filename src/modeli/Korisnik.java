@@ -93,46 +93,72 @@ public class Korisnik extends Osoba {
     }
 
     private static void ubaciPesmuUKorBazu(String username, int id) {
-        ArrayList<Pesme> pesme = Pesme.dohvatiSvePesme();
-        boolean flag = false;
+        ArrayList<Pesme> svePesme = Pesme.dohvatiSvePesme();
+        boolean flagSvePesme = false, flagDuplikat = false;
 
-        for (Pesme p : pesme){
-            if(p.getId() == id){
-                flag = true;
-                String upit = "insert into " + username + "(id_pesme) values (" + id + ")";
-                try {
-                    if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                        System.out.println("Uspesno dodavanje pesme u korisnicku biblioteku!");
-                } catch (SQLException e) {
-                    e.printStackTrace();
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit("select id_pesme from " + username);
+            while (odgovorBaze.next()){
+                if(odgovorBaze.getInt("id_pesme") == id) {
+                    System.err.println("Pesma vec postoji u bazi!");
+                    flagDuplikat = true;
                 }
-                break;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        if(!flag) System.err.println("Pesma ne postoji u bazi!");
+        if(!flagDuplikat)
+            for (Pesme p : svePesme){
+                if(p.getId() == id){
+                    flagSvePesme = true;
+                    String upit = "insert into " + username + "(id_pesme) values (" + id + ")";
+                    try {
+                        if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                            System.out.println("Uspesno dodavanje pesme u korisnicku biblioteku!");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+
+        if(!flagSvePesme && !flagDuplikat) System.err.println("Pesma ne postoji u bazi!");
 
     }
 
     private static void ubaciAlbumUKorBazu(String username, int id) {
         ArrayList<Albumi> albumi = Albumi.dohvatiSveAlbume();
-        boolean flag = false;
+        boolean flagSviAlbumi = false, flagDuplikat = false;
 
-        for (Albumi a : albumi){
-            if(a.getAlbumId() == id){
-                flag = true;
-                String upit = "insert into " + username + "(id_albuma) values (" + id + ")";
-                try {
-                    if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                        System.out.println("Uspesno dodavanje albuma u korisnicku biblioteku!");
-                } catch (SQLException e) {
-                    e.printStackTrace();
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit("select id_albuma from " + username);
+            while (odgovorBaze.next()){
+                if(odgovorBaze.getInt("id_albuma") == id) {
+                    System.err.println("Pesma vec postoji u bazi!");
+                    flagDuplikat = true;
                 }
-                break;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        if(!flag) System.err.println("Album ne postoji u bazi!");
+        if(!flagDuplikat)
+            for (Albumi a : albumi){
+                if(a.getAlbumId() == id){
+                    flagSviAlbumi = true;
+                    String upit = "insert into " + username + "(id_albuma) values (" + id + ")";
+                    try {
+                        if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                            System.out.println("Uspesno dodavanje albuma u korisnicku biblioteku!");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+
+        if(!flagSviAlbumi && !flagDuplikat) System.err.println("Album ne postoji u bazi!");
 
     }
 
