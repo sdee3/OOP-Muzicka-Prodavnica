@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Log {
 
-    private static String putanja = "C:\\Users\\Stefan\\IdeaProjects\\OOP-Muzicka-Prodavnica\\src\\helper\\aktivnosti.log";
+    private static String putanja = "src/helper/aktivnosti.log";
     private static FileWriter fileWriter;
 
     public static void init(){
