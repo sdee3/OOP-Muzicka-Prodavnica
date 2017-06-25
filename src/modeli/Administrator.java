@@ -50,11 +50,12 @@ public class Administrator extends Osoba {
         } else return new Administrator(username, password);
     }
 
-    public static void unosPesamaUAlbum(Albumi noviAlbum) {
+    public static void unosPesamaUNoviAlbum(Albumi noviAlbum) {
         System.out.println("Unos pesama u album mozete prekinuti tako sto cete pritisnuti Enter kod naziva pesme.");
         String naziv, trajanje;
         String upit = "", drugiDeoUpita = "";
 
+        //TODO Popravi ovo
         while (true) {
             System.out.print("Naziv: ");
             naziv = unos.nextLine();

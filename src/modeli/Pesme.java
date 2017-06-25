@@ -55,10 +55,10 @@ public class Pesme {
     }
 
     public static void unosPesme(String naziv, String trajanje, int id_izvodjaca, int id_albuma){
-        String upit = (id_albuma != 0) ? "unesiTekst into pesme('naziv', 'id_izvodjaca', 'id_albuma', 'trajanje') values ('" + naziv
+        String upit = (id_albuma != 0) ? "insert into pesme('naziv', 'id_izvodjaca', 'id_albuma', 'trajanje') values ('" + naziv
                 + "', " + id_izvodjaca + ", " + id_albuma + ", '" + trajanje + "')"
-                : "unesiTekst into pesme('naziv', 'id_izvodjaca', 'trajanje') values ('" + naziv
-                + "', " + id_izvodjaca + ", " + trajanje + "')";
+                : "insert into pesme('naziv', 'id_izvodjaca', 'trajanje') values ('" + naziv
+                + "', " + id_izvodjaca + ", '" + trajanje + "')";
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) != 0)
                 System.out.println("Pesma '" + naziv + "' uspesno dodata!");
@@ -107,12 +107,15 @@ public class Pesme {
         System.out.println("Kako biste uneli pesmu, unesite REDOM:" +
                 " naziv pesme, ID izvodjaca, ID albuma i trajanje pesme.");
 
-        int id_izvodjaca, id_albuma;
+        int id_izvodjaca, id_albuma = 0;
         String naziv, trajanje;
 
         System.out.print("Naziv pesme: "); naziv = unos.nextLine();
         System.out.print("ID izvodjaca: "); id_izvodjaca = unos.nextInt(); unos.nextLine();
-        System.out.print("ID albuma (Pritisnite Enter ako nema): "); id_albuma = (unos.nextInt() > 0) ? unos.nextInt() : 0 ; unos.nextLine();
+        System.out.print("ID albuma (Pritisnite Enter ako nema): ");
+        String id_albuma_string = unos.nextLine();
+        if(!id_albuma_string.equals(""))
+            id_albuma = Integer.parseInt(id_albuma_string);
         System.out.print("Trajanje pesme (Format: HH:MM:SS): "); trajanje = unos.nextLine();
 
         unosPesme(naziv, trajanje, id_izvodjaca, id_albuma);

@@ -124,7 +124,7 @@ public class Albumi {
         String zanr = unos.nextLine();
 
         String upit = "insert into albumi(id, naziv, godina_izdanja, id_izvodjaca, zanr) values (" + dohvatiNoviId() + ", '" + naziv
-                + ", " + godina_izdanja + ", " + id_izvodjaca + ", '" + zanr + "')";
+                + "', " + godina_izdanja + ", " + id_izvodjaca + ", '" + zanr + "')";
 
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0 )

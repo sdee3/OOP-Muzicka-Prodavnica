@@ -85,7 +85,7 @@ public class Program {
             case 3:
                 if (osoba instanceof Administrator) {
                     Albumi noviAlbum = Albumi.rucniUnosNovogAlbuma(unos);
-                    Administrator.unosPesamaUAlbum(noviAlbum);
+                    Administrator.unosPesamaUNoviAlbum(noviAlbum);
                     Log.unesiTekst("Administrator je uneo pesme u album - " + vratiDatumIVreme());
                     prikaziMeni();
                 } else if (osoba instanceof Korisnik) {

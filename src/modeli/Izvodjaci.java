@@ -158,8 +158,8 @@ public class Izvodjaci {
     }
 
     public static void rucniUnosNovogIzvodjaca(Scanner unos) {
-        String naziv, tip, biografija;
-        int god_formiranja, god_raspada;
+        String naziv, tip, biografija, god_formiranja_string, god_raspada_string;
+        int god_formiranja = 0, god_raspada = 0;
 
         System.out.println("Kako biste uneli izvodjaca, unesite REDOM: " +
                 "naziv benda ili ime i prezime, tip (SOLO, DUO, BEND), godinu formiranja, godinu raspada " +
@@ -167,15 +167,23 @@ public class Izvodjaci {
 
         naziv = unos.nextLine();
         tip = unos.nextLine();
-        god_formiranja = unos.nextInt();
-        unos.nextLine();
-        god_raspada = unos.nextInt();
-        unos.nextLine();
+
+        god_formiranja_string = unos.nextLine();
+        if(!god_formiranja_string.equals(""))
+            god_formiranja = Integer.parseInt(god_formiranja_string);
+
+        god_raspada_string = unos.nextLine();
+        if(!god_raspada_string.equals(""))
+            god_raspada = Integer.parseInt(god_raspada_string);
+
         biografija = unos.nextLine();
 
         String upit = "insert into izvodjaci values (" + dohvatiNoviId() + ", '" + naziv + "', '"
-                + tip.toUpperCase() + ", " + god_formiranja + ", " + god_raspada + ", '"
-                + biografija + "'";
+                + tip.toUpperCase() + "', " + god_formiranja;
+        if(god_raspada!=0)
+            upit += ", " + god_raspada + ", '" + biografija + "')";
+        else
+            upit += ", null, '" + biografija + "')";
 
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
