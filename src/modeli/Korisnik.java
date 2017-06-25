@@ -27,7 +27,7 @@ public class Korisnik extends Osoba {
     }
 
     public String getMeni() {
-        return "\n1. Prikaz biblioteke kupljenih albuma i pesama\n2. Pretraga izvođača u muzičkoj aplikaciji" +
+        return "\n1. Prikaz biblioteke kupljenih albuma i pesama\n2. Pretraga izvodjaca u muzickoj aplikaciji" +
                 "\n3. Dodavanje pesme u biblioteku\n4. Dodavanje albuma u biblioteku\n5. Odjava\n";
     }
 
@@ -75,7 +75,7 @@ public class Korisnik extends Osoba {
             e.printStackTrace();
         }
 
-        System.out.println("\nIndividualne pesme koje se nalaze u Vašoj biblioteci:");
+        System.out.println("\nIndividualne pesme koje se nalaze u Vasoj biblioteci:");
         for (Pesme p : korisnikovePesme){
             if(p!=null && p.getAlbumPesme() == null)
                 System.out.println(p.ispisKompletnePesme());
@@ -90,7 +90,7 @@ public class Korisnik extends Osoba {
         String upit = "insert into " + username + "(id_pesme) values (" + id + ")";
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspešno dodavanje pesme u korisničku biblioteku!");
+                System.out.println("Uspesno dodavanje pesme u korisnicku biblioteku!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -100,7 +100,7 @@ public class Korisnik extends Osoba {
         String upit = "insert into " + username + "(id_albuma) values (" + id + ")";
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspešno dodavanje albuma u korisničku biblioteku!");
+                System.out.println("Uspesno dodavanje albuma u korisnicku biblioteku!");
         } catch (SQLException e) {
             e.printStackTrace();
         }

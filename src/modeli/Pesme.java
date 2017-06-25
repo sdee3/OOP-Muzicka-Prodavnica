@@ -34,7 +34,7 @@ public class Pesme {
 
         try {
             int brPromena = BazaPodataka.getInstanca().iudUpit(upit);
-            if(brPromena > 0) System.out.println("Uspešno dodavanje pesme u bazu!");
+            if(brPromena > 0) System.out.println("Uspesno dodavanje pesme u bazu!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,7 +61,7 @@ public class Pesme {
                 + "', " + id_izvodjaca + ", " + trajanje + "')";
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) != 0)
-                System.out.println("Pesma '" + naziv + "' uspešno dodata!");
+                System.out.println("Pesma '" + naziv + "' uspesno dodata!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -110,7 +110,7 @@ public class Pesme {
 
     public String ispisKompletnePesme(){
         String rezultat = "";
-        rezultat += "ID: " + id + ".\n" + naziv + "(" + trajanje + ")" + "\nIzvođač: " + izvodjac;
+        rezultat += "ID: " + id + ".\n" + naziv + "(" + trajanje + ")" + "\nIzvodjac: " + izvodjac;
         if(album!=null)
             rezultat += "\nAlbum: " + album;
         return rezultat;
@@ -118,13 +118,13 @@ public class Pesme {
 
     public static void rucniUnosNovePesme(Scanner unos){
         System.out.println("Kako biste uneli pesmu, unesite REDOM:" +
-                " naziv pesme, ID izvođača, ID albuma i trajanje pesme.");
+                " naziv pesme, ID izvodjaca, ID albuma i trajanje pesme.");
 
         int id_izvodjaca, id_albuma;
         String naziv, trajanje;
 
         System.out.print("Naziv pesme: "); naziv = unos.nextLine();
-        System.out.print("ID izvođača: "); id_izvodjaca = unos.nextInt(); unos.nextLine();
+        System.out.print("ID izvodjaca: "); id_izvodjaca = unos.nextInt(); unos.nextLine();
         System.out.print("ID albuma (Pritisnite Enter ako nema): "); id_albuma = (unos.nextInt() > 0) ? unos.nextInt() : 0 ; unos.nextLine();
         System.out.print("Trajanje pesme (Format: HH:MM:SS): "); trajanje = unos.nextLine();
 
@@ -141,7 +141,7 @@ public class Pesme {
 
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspešno ažuriranje pesme!");
+                System.out.println("Uspesno azuriranje pesme!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -151,7 +151,7 @@ public class Pesme {
         String upit = "delete * from pesme where id = " + tmpId;
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspešno izbrisana pesma!");
+                System.out.println("Uspesno izbrisana pesma!");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -18,8 +18,8 @@ public class Administrator extends Osoba {
     }
 
     public String getMeni() {
-        return "\n1. Unos pesme\n2. Unos izvođača\n3. Unos albuma\n4. Ažuriranje pesme\n5. Ažuriranje izvođača" +
-                "\n6. Ažuriranje albuma\n7. Brisanje pesme\n8. Brisanje izvođača\n9. Brisanje albuma\n10. Odjava\n";
+        return "\n1. Unos pesme\n2. Unos izvodjaca\n3. Unos albuma\n4. Azuriranje pesme\n5. Azuriranje izvodjaca" +
+                "\n6. Azuriranje albuma\n7. Brisanje pesme\n8. Brisanje izvodjaca\n9. Brisanje albuma\n10. Odjava\n";
     }
 
     public static Administrator adminPassCheck(String username) {
@@ -84,8 +84,8 @@ public class Administrator extends Osoba {
         unos.nextLine();
         try {
             if (Albumi.dohvatiAlbumPoId(tmpId) != null) {
-                System.out.println("Da li ste sigurni da želite obrisati album? " +
-                        "OVO ĆE IZBRISATI I IZVOĐAČA I SVE PESME IZDATE POD OVIM ALBUMOM!\nUnesite DA ili NE");
+                System.out.println("Da li ste sigurni da zelite obrisati album? " +
+                        "OVO cE IZBRISATI I IZVOdjAcA I SVE PESME IZDATE POD OVIM ALBUMOM!\nUnesite DA ili NE");
                 if (unos.nextLine().equals("DA")) {
                     Albumi.deleteAlbum(tmpId);
                 } else {
@@ -98,12 +98,12 @@ public class Administrator extends Osoba {
     }
 
     public static void brisanjeIzvodjaca() {
-        System.out.print("Unesite ID izvođača za brisanje:");
+        System.out.print("Unesite ID izvodjaca za brisanje:");
         int tmpId = unos.nextInt();
         unos.nextLine();
         try {
             if (Izvodjaci.dohvatiIzvodjacaPoId(tmpId) != null) {
-                System.out.println("Da li ste sigurni da želite obrisati izvođača? Unesite DA ili NE");
+                System.out.println("Da li ste sigurni da zelite obrisati izvodjaca? Unesite DA ili NE");
                 if (unos.nextLine().equals("DA")) {
                     Izvodjaci.deleteIzvodjac(tmpId);
                 } else {
@@ -121,7 +121,7 @@ public class Administrator extends Osoba {
         unos.nextLine();
         try {
             if (Pesme.filtrirajListuPesamaPoId(tmpId) != null) {
-                System.out.println("Da li ste sigurni da želite obrisati pesmu? Unesite DA ili NE");
+                System.out.println("Da li ste sigurni da zelite obrisati pesmu? Unesite DA ili NE");
                 if (unos.nextLine().equals("DA")) {
                     Pesme.deletePesme(tmpId);
                 } else {
@@ -153,10 +153,10 @@ public class Administrator extends Osoba {
             System.out.print("\nUnesite novu godinu izdanja albuma: ");
             tmpGodina = unos.nextInt();
             unos.nextLine();
-            System.out.print("Unesite novi ID izvođača: ");
+            System.out.print("Unesite novi ID izvodjaca: ");
             tmpIDIzvodjaca = unos.nextInt();
             unos.nextLine();
-            System.out.print("Unesite novi žanr: ");
+            System.out.print("Unesite novi zanr: ");
             tmpZanr = unos.nextLine();
             tmpAlbum.updateAlbum(tmpNaziv, tmpGodina, tmpIDIzvodjaca, tmpZanr);
         }
@@ -166,7 +166,7 @@ public class Administrator extends Osoba {
     public static void azuriranjeIzvodjaca() {
         String tmpImePrezime, tmpTip, tmpBiografija;
         int tmpGodinaFormiranja, tmpGodRaspada;
-        System.out.print("Unesite ID izvođača: ");
+        System.out.print("Unesite ID izvodjaca: ");
         int tmpId = unos.nextInt();
         unos.nextLine();
         Izvodjaci tmpIzvodjac = Izvodjaci.vratiIzvodjacaPoId(tmpId);
@@ -212,10 +212,10 @@ public class Administrator extends Osoba {
             System.out.print("\nUkoliko ne zelite promeniti neki od podataka, pritisnite Enter.\n" +
                     "Unesite novi naziv pesme: ");
             tmpNaziv = unos.nextLine();
-            System.out.print("\nUnesite novi ID izvođača: ");
+            System.out.print("\nUnesite novi ID izvodjaca: ");
             tmpIDIzvodjaca = unos.nextInt();
             unos.nextLine();
-            System.out.print("Unesite novi ID albuma (može ostati prazno ukoliko je singl): ");
+            System.out.print("Unesite novi ID albuma (moze ostati prazno ukoliko je singl): ");
             tmpIDAlbuma = unos.nextInt();
             unos.nextLine();
             System.out.print("Unesite novo trajanje (HH:MM:SS): ");

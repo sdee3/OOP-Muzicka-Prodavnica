@@ -3,10 +3,10 @@ package izuzeci;
 public class DuplikatPesmeException extends Exception{
 
     public DuplikatPesmeException() {
-        System.err.println("Pesma je već uneta!");
+        System.err.println("Pesma je vec uneta!");
     }
     public void printStackTrace(){
-        System.err.println("Pesma koju ste pokušali uneti je već u Vašoj biblioteci.");
+        System.err.println("Pesma koju ste pokusali uneti je vec u Vasoj biblioteci.");
     }
 
 }

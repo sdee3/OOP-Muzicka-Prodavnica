@@ -29,7 +29,7 @@ public abstract class Osoba {
     protected static boolean proveraUneteIPraveLozinke(String praviPassword, String tmpPassword){
         boolean rezultat;
             if(tmpPassword.equals(praviPassword)) {
-                System.out.println("Dobrodošli nazad!");
+                System.out.println("Dobrodosli nazad!");
                 rezultat = true;
             }else
                 rezultat = false;

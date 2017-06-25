@@ -9,6 +9,6 @@ public class NepostojeciIzvodjacException extends Exception {
     }
 
     public void printStackTrace(){
-        System.err.println("Izvođač ne postoji u bazi podataka.");
+        System.err.println("Izvodjac ne postoji u bazi podataka.");
     }
 }

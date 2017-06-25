@@ -26,7 +26,7 @@ public class Izvodjaci {
 
         try {
             int brPromena = BazaPodataka.getInstanca().iudUpit(upit);
-            if(brPromena > 0) System.out.println("Uspešno dodavanje izvodjača u bazu!");
+            if(brPromena > 0) System.out.println("Uspesno dodavanje izvodjaca u bazu!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -149,8 +149,8 @@ public class Izvodjaci {
 
     @Override
     public String toString() {
-        return tip + " izvodjač " + ime_prezime + "\nAktivan od " + god_formiranja + "." +
-                ((god_raspada > 0) ? " do " + god_raspada : "") + "\nDetaljnije o izvođaču: " + biografija;
+        return tip + " izvodjac " + ime_prezime + "\nAktivan od " + god_formiranja + "." +
+                ((god_raspada > 0) ? " do " + god_raspada : "") + "\nDetaljnije o izvodjacu: " + biografija;
     }
 
     public String getImePrezime() {
@@ -161,9 +161,9 @@ public class Izvodjaci {
         String naziv, tip, biografija;
         int god_formiranja, god_raspada;
 
-        System.out.println("Kako biste uneli izvođača, unesite REDOM: " +
+        System.out.println("Kako biste uneli izvodjaca, unesite REDOM: " +
                 "naziv benda ili ime i prezime, tip (SOLO, DUO, BEND), godinu formiranja, godinu raspada " +
-                "(može ostati prazno ukoliko je izvođač aktivan) i biografiju ne dužu od 8 rečenica.");
+                "(moze ostati prazno ukoliko je izvodjac aktivan) i biografiju ne duzu od 8 recenica.");
 
         naziv = unos.nextLine();
         tip = unos.nextLine();
@@ -179,7 +179,7 @@ public class Izvodjaci {
 
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspešan unos novog izvođača!");
+                System.out.println("Uspesan unos novog izvodjaca!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -196,7 +196,7 @@ public class Izvodjaci {
 
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspešno ažuriranje izvođača!");
+                System.out.println("Uspesno azuriranje izvodjaca!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -222,7 +222,7 @@ public class Izvodjaci {
         String upit = "delete from izvodjaci where id = " + tmpId;
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspešno izbrisan izvođač!");
+                System.out.println("Uspesno izbrisan izvodjac!");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -26,7 +26,7 @@ public class Albumi {
 
         try {
             int brPromena = BazaPodataka.getInstanca().iudUpit(upit);
-            if(brPromena > 0) System.out.println("Uspešno dodavanje albuma u bazu!");
+            if(brPromena > 0) System.out.println("Uspesno dodavanje albuma u bazu!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -109,7 +109,7 @@ public class Albumi {
 
     public static Albumi rucniUnosNovogAlbuma(Scanner unos) {
         System.out.println("Kako biste uneli novi album, unesite REDOM: " +
-                "naziv albuma, godinu izdanja, ID izvođača albuma, žanr.\nNakon ovoga sledi unos pesama.");
+                "naziv albuma, godinu izdanja, ID izvođača albuma, zanr.\nNakon ovoga sledi unos pesama.");
 
         System.out.print("Naziv: ");
         String naziv = unos.nextLine();
@@ -119,7 +119,7 @@ public class Albumi {
         System.out.print("ID izvodjaca: ");
         int id_izvodjaca = unos.nextInt();
         unos.nextLine();
-        System.out.print("Žanr albuma: ");
+        System.out.print("Zanr albuma: ");
         String zanr = unos.nextLine();
 
         String upit = "insert into albumi(id, naziv, godina_izdanja, id_izvodjaca, zanr) values (" + dohvatiNoviId() + ", '" + naziv
@@ -145,7 +145,7 @@ public class Albumi {
 
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspešno ažuriranje albuma!");
+                System.out.println("Uspesno ažuriranje albuma!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -155,7 +155,7 @@ public class Albumi {
         String upit = "delete from albumi where id = " + tmpId;
         try {
             if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspešno izbrisan album!");
+                System.out.println("Uspesno izbrisan album!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
