@@ -103,19 +103,6 @@ public class Pesme {
         return rezultat;
     }
 
-    @Override
-    public String toString() {
-        return id + ". " + naziv + " (" + trajanje + ")";
-    }
-
-    public String ispisKompletnePesme(){
-        String rezultat = "";
-        rezultat += "ID: " + id + ".\n" + naziv + "(" + trajanje + ")" + "\nIzvodjac: " + izvodjac;
-        if(album!=null)
-            rezultat += "\nAlbum: " + album;
-        return rezultat;
-    }
-
     public static void rucniUnosNovePesme(Scanner unos){
         System.out.println("Kako biste uneli pesmu, unesite REDOM:" +
                 " naziv pesme, ID izvodjaca, ID albuma i trajanje pesme.");
@@ -157,10 +144,6 @@ public class Pesme {
         }
     }
 
-    public Albumi getAlbumPesme() {
-        return album;
-    }
-
     public static Pesme filtrirajListuPesamaPoId(ArrayList<Pesme> pesme, int id) {
             Pesme rezultat = null;
             for(Pesme p : pesme){
@@ -168,4 +151,41 @@ public class Pesme {
             }
             return rezultat;
     }
+
+    public static ArrayList<Pesme> dohvatiPesmeAlbuma(Albumi album) {
+        String upit = "select * from pesme where id_albuma not null and id_albuma = " + album.getAlbumId();
+        ArrayList<Pesme> rezultat = new ArrayList<>();
+
+        try {
+            ResultSet odgovorBaze = BazaPodataka.getInstanca().selectUpit(upit);
+            while (odgovorBaze.next()){
+                rezultat.add(new Pesme(odgovorBaze.getInt(1), odgovorBaze.getString(2),
+                        odgovorBaze.getInt(3), odgovorBaze.getInt(4),
+                        odgovorBaze.getString(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rezultat;
+    }
+
+    public Albumi getAlbumPesme() {
+        return album;
+    }
+
+    @Override
+    public String toString() {
+        return id + ". " + naziv + " (" + trajanje + ")";
+    }
+
+    public String ispisKompletnePesme(){
+        String rezultat = "";
+        rezultat += "ID: " + id + ".\n" + naziv + "(" + trajanje + ")" + "\nIzvodjac: " + izvodjac;
+        if(album!=null)
+            rezultat += "\nAlbum: " + album;
+        return rezultat;
+    }
+
+    public int getId() { return id; }
 }

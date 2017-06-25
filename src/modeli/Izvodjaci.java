@@ -150,7 +150,7 @@ public class Izvodjaci {
     @Override
     public String toString() {
         return tip + " izvodjac " + ime_prezime + "\nAktivan od " + god_formiranja + "." +
-                ((god_raspada > 0) ? " do " + god_raspada : "") + "\nDetaljnije o izvodjacu: " + biografija;
+                ((god_raspada > 0) ? " do " + god_raspada : "") + "\nDetaljnije o izvodjacu:\n" + biografija;
     }
 
     public String getImePrezime() {

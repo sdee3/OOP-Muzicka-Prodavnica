@@ -87,7 +87,8 @@ public class Albumi {
     @Override
     public String toString() {
         return id + ". " + naziv + "\nŽanr: " + zanr + "\nIzdat " + godina_izdanja + "."
-                + "\nIzvodjac: " + izvodjac + "\nUkupno trajanje albuma: " + dohvatiUkupnoTrajanje(this);
+                + "\nIzvodjac:\n" + izvodjac + "\nUkupno trajanje albuma: " + dohvatiUkupnoTrajanje(this)
+                + "\nPesme:\n" + Pesme.dohvatiPesmeAlbuma(this);
     }
 
     public static String dohvatiUkupnoTrajanje(Albumi albumi) {

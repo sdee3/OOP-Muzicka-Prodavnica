@@ -80,6 +80,12 @@ public class Korisnik extends Osoba {
             if(p!=null && p.getAlbumPesme() == null)
                 System.out.println(p.ispisKompletnePesme());
         }
+
+        System.out.println("\nNeindividualne pesme:");
+        for (Pesme p : korisnikovePesme)
+            if(p!=null && p.getAlbumPesme() != null)
+                System.out.println(p.ispisKompletnePesme());
+
         System.out.println("\n\nAlbumi sa pesmama:");
         for (Albumi a : korisnikoviAlbumi)
             if(a!=null) System.out.println(a);
@@ -87,23 +93,47 @@ public class Korisnik extends Osoba {
     }
 
     private static void ubaciPesmuUKorBazu(String username, int id) {
-        String upit = "insert into " + username + "(id_pesme) values (" + id + ")";
-        try {
-            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspesno dodavanje pesme u korisnicku biblioteku!");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ArrayList<Pesme> pesme = Pesme.dohvatiSvePesme();
+        boolean flag = false;
+
+        for (Pesme p : pesme){
+            if(p.getId() == id){
+                flag = true;
+                String upit = "insert into " + username + "(id_pesme) values (" + id + ")";
+                try {
+                    if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                        System.out.println("Uspesno dodavanje pesme u korisnicku biblioteku!");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
+
+        if(!flag) System.err.println("Pesma ne postoji u bazi!");
+
     }
 
     private static void ubaciAlbumUKorBazu(String username, int id) {
-        String upit = "insert into " + username + "(id_albuma) values (" + id + ")";
-        try {
-            if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
-                System.out.println("Uspesno dodavanje albuma u korisnicku biblioteku!");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ArrayList<Albumi> albumi = Albumi.dohvatiSveAlbume();
+        boolean flag = false;
+
+        for (Albumi a : albumi){
+            if(a.getAlbumId() == id){
+                flag = true;
+                String upit = "insert into " + username + "(id_albuma) values (" + id + ")";
+                try {
+                    if(BazaPodataka.getInstanca().iudUpit(upit) > 0)
+                        System.out.println("Uspesno dodavanje albuma u korisnicku biblioteku!");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
+
+        if(!flag) System.err.println("Album ne postoji u bazi!");
+
     }
 
     public static void unosPesmeUBiblioteku(Osoba osoba) {
