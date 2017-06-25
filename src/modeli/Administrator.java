@@ -84,7 +84,7 @@ public class Administrator extends Osoba {
         unos.nextLine();
         try {
             if (Albumi.dohvatiAlbumPoId(tmpId) != null) {
-                System.out.println("Da li ste sigurni da zelite obrisati album? " +
+                System.err.println("Da li ste sigurni da zelite obrisati album? " +
                         "OVO cE IZBRISATI I IZVOdjAcA I SVE PESME IZDATE POD OVIM ALBUMOM!\nUnesite DA ili NE");
                 if (unos.nextLine().equals("DA")) {
                     Albumi.deleteAlbum(tmpId);
